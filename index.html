@@ -1,25 +1,106 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MiniApp</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: sans-serif;
+    background-color: #f5f5f5;
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+
+.content {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: white;
+    text-shadow: 1px 1px 3px black;
+    font-size: 20px;
+    line-height: 1.4;
+    font-weight: 700;
+}
+
+/* кнопки */
+.buttons-container {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: grid;
+    grid-template-columns: repeat(2, 140px); /* 2 кнопки в ряд */
+    grid-gap: 12px; /* отступ между кнопками */
+}
+
+.button {
+    background-color: #e0e0e0; /* серый стиль как в Telegram */
+    color: #000;
+    padding: 12px 0;
+    border-radius: 12px; /* закруглённые углы */
+    text-align: center;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+}
+
+.button:hover {
+    background-color: #d0d0d0;
+}
+
+/* адаптация для телефонов */
+@media (max-width: 600px) {
+    .content {
+        font-size: 16px;
+    }
+    .buttons-container {
+        grid-template-columns: repeat(2, 120px);
+        grid-gap: 8px;
+    }
+    .button {
+        padding: 10px 0;
+        border-radius: 10px;
+        font-size: 14px;
+    }
+}
+</style>
 </head>
 <body>
-    <div class="background"></div>
-    <div class="content">
-        <h1>Россия.<br>
-            История, которой<br>
-            мы гордимся
-        </h1>
-        <p>Выберите раздел:</p>
-        <button onclick="sendChoice('dates')">Даты</button>
-        <button onclick="sendChoice('terms')">Термины</button>
-        <button onclick="sendChoice('events')">События</button>
-        <button onclick="sendChoice('figures')">Личности</button>
-    </div>
+<div class="background"></div>
 
-    <script src="script.js"></script>
+<div class="content">
+Россия.<br>
+История, которой<br>
+Мы гордимся
+</div>
+
+<div class="buttons-container">
+    <div class="button">Даты</div>
+    <div class="button">Термины</div>
+    <div class="button">События</div>
+    <div class="button">Личности</div>
+    <div class="button">Битвы</div>
+    <div class="button">Реформы</div>
+    <div class="button">Факты</div>
+    <div class="button">Цитаты</div>
+</div>
 </body>
 </html>
