@@ -1,7 +1,18 @@
 function sendChoice(choice) {
-    if (window.Telegram && Telegram.WebApp) {
-        Telegram.WebApp.sendData(choice); // отправка данных боту
-    } else {
-        alert("Вы выбрали: " + choice); // тест в браузере
+    switch(choice) {
+        case 'dates':
+            alert("Вы выбрали раздел: Даты");
+            break;
+        case 'terms':
+            alert("Вы выбрали раздел: Термины");
+            break;
+        case 'events':
+            alert("Вы выбрали раздел: События");
+            break;
+        case 'figures':
+            alert("Вы выбрали раздел: Личности");
+            break;
+        default:
+            alert("Выберите раздел!");
     }
 }
