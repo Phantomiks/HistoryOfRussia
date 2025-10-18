@@ -29,3 +29,8 @@ html, body {
     align-items: center;
     text-align: center;
 }
+h1 {
+    color: white;
+    text-shadow: 1px 1px 3px black;
+    margin-left: 40px;
+}
