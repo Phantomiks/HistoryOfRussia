@@ -30,11 +30,11 @@ html, body {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* центрирование */
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
-    align-items: center;  /* горизонтальное центрирование текста */
-    text-align: center;   /* перенос строк по центру */
+    align-items: center;
+    text-align: center;
     color: white;
     text-shadow: 1px 1px 3px black;
 }
@@ -45,16 +45,16 @@ html, body {
     font-weight: 700;
 }
 
-/* отдельные строки с разным размером */
-.line1 { font-size: 28px; }
-.line2 { font-size: 24px; }
-.line3 { font-size: 24px; }
+/* меньший шрифт */
+.line1 { font-size: 22px; }
+.line2 { font-size: 20px; }
+.line3 { font-size: 20px; }
 
 /* адаптация для маленьких экранов */
 @media (max-width: 600px) {
-    .line1 { font-size: 20px; }
-    .line2 { font-size: 18px; }
-    .line3 { font-size: 18px; }
+    .line1 { font-size: 18px; }
+    .line2 { font-size: 16px; }
+    .line3 { font-size: 16px; }
 }
 </style>
 </head>
