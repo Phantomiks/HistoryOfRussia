@@ -52,9 +52,9 @@ html, body {
 
 /* адаптация для маленьких экранов */
 @media (max-width: 600px) {
-    .line1 { font-size: 18px; }
-    .line2 { font-size: 16px; }
-    .line3 { font-size: 16px; }
+    .line1 { font-size: 14px; }
+    .line2 { font-size: 14px; }
+    .line3 { font-size: 14px; }
 }
 </style>
 </head>
