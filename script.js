@@ -1,8 +1,8 @@
-/* Укажи здесь username своего Telegram-бота (без @) */
-const BOT_USERNAME = "your_bot_username_here";
+/* Подключение Telegram-бота */
+const BOT_USERNAME = "Hist0ry_of_Russia_bot";
 
 function openBot(){
-  const username = BOT_USERNAME || prompt("Введите username вашего бота:");
+  const username = BOT_USERNAME;
   if(!username) return;
   window.open("https://t.me/" + username, "_blank");
 }
