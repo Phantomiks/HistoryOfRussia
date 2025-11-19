@@ -1,14 +1,6 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Россия — История</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<!doctype html>
-<html lang="ru">
-<head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
   <title>Россия — История, которой мы гордимся</title>
@@ -16,9 +8,9 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="site-header" role="banner">
+  <header class="site-header">
     <div class="container header-inner">
-      <div class="brand" role="img" aria-label="Логотип проекта Россия">
+      <div class="brand">
         <img class="logo" src="Avatar.jpg" alt="Россия — История">
         <div class="brand-text">
           <div class="title">Россия.</div>
@@ -26,7 +18,7 @@
         </div>
       </div>
 
-      <nav class="nav" role="navigation" aria-label="Главное меню">
+      <nav class="nav">
         <a class="nav-link" href="#concept">О проекте</a>
         <a class="nav-link" href="#themes">Темы</a>
         <a class="nav-link" href="#gallery">Галерея</a>
@@ -35,31 +27,29 @@
       </nav>
 
       <div class="header-actions">
-        <button class="cta" onclick="openBot()" aria-label="Открыть Telegram">Перейти в Telegram</button>
+        <button class="cta" onclick="openBot()">Перейти в Telegram</button>
       </div>
     </div>
   </header>
 
   <main>
     <!-- HERO -->
-    <section class="hero" id="hero" aria-labelledby="hero-title">
+    <section class="hero" id="hero">
       <div class="container hero-inner">
         <div class="hero-left">
-          <h1 id="hero-title">Россия —<br><span class="accent">История</span>, которой мы гордимся</h1>
-          <p class="lead">Красивая визуальная презентация эпох, персоналий и культурного наследия. Коротко. Эмоционально. Для всех.</p>
+          <h1>Россия —<br><span class="accent">История</span>, которой мы гордимся</h1>
+          <p class="lead">Визуальная презентация эпох, персоналий и культурного наследия. Коротко. Эмоционально. Для всех.</p>
           <div class="hero-actions">
             <button class="btn btn-primary" onclick="openBot()">Открыть Telegram</button>
             <a class="btn btn-ghost" href="#concept">Узнать больше</a>
           </div>
         </div>
-
         <div class="hero-right">
-          <figure class="hero-card" aria-hidden>
+          <figure class="hero-card">
             <div class="card-content">
               <h3>Миссия</h3>
               <p>Делиться историей так, чтобы она вызывала уважение и интерес — без сложных инструкций, только смысл и образ.</p>
             </div>
-            <div class="card-decor"></div>
           </figure>
         </div>
       </div>
@@ -76,38 +66,32 @@
       <div class="container">
         <h2>Темы</h2>
         <p class="small-muted">Краткие тематические направления — каждая карточка рассказывает «о чём» раздел, без инструкций и функционала.</p>
-
         <div class="themes-grid">
           <article class="theme-card">
             <div class="theme-icon">🕰</div>
             <h3>Эпохи</h3>
             <p>Краткие образы ключевых исторических периодов: от Древней Руси до XX века.</p>
           </article>
-
           <article class="theme-card">
             <div class="theme-icon">👥</div>
             <h3>Персоны</h3>
             <p>Знаковые личности, чьи решения и судьбы сформировали историю.</p>
           </article>
-
           <article class="theme-card">
             <div class="theme-icon">🏛</div>
             <h3>Культура и наука</h3>
             <p>Архитектура, литература, открытия — культурный пласт страны.</p>
           </article>
-
           <article class="theme-card">
             <div class="theme-icon">⚔️</div>
             <h3>Военная история</h3>
             <p>Ключевые сражения, кампании и их влияние на судьбу народа.</p>
           </article>
-
           <article class="theme-card">
             <div class="theme-icon">🗺</div>
             <h3>Территории</h3>
             <p>Как изменялись границы и регионы, ключевые географические точки.</p>
           </article>
-
           <article class="theme-card">
             <div class="theme-icon">🏺</div>
             <h3>Наследие</h3>
@@ -121,13 +105,12 @@
     <section id="gallery" class="section section-gallery">
       <div class="container">
         <h2>Галерея</h2>
-        <p class="small-muted">Атмосферные изображения — архитектура, эмблемы эпох и исторические виды.</p>
-
-        <div class="gallery-grid">
-          <div class="media-card" style="background-image: url('https://picsum.photos/id/1011/800/600')"></div>
-          <div class="media-card" style="background-image: url('https://picsum.photos/id/1015/800/600')"></div>
-          <div class="media-card" style="background-image: url('https://picsum.photos/id/1016/800/600')"></div>
-          <div class="media-card" style="background-image: url('https://picsum.photos/id/1025/800/600')"></div>
+        <p class="small-muted">Атмосферные вертикальные изображения с возможностью перелистывания.</p>
+        <div class="gallery-vertical">
+          <div class="media-card" style="background-image: url('https://picsum.photos/id/1011/400/600')"></div>
+          <div class="media-card" style="background-image: url('https://picsum.photos/id/1015/400/600')"></div>
+          <div class="media-card" style="background-image: url('https://picsum.photos/id/1016/400/600')"></div>
+          <div class="media-card" style="background-image: url('https://picsum.photos/id/1025/400/600')"></div>
         </div>
       </div>
     </section>
@@ -136,11 +119,11 @@
     <section id="community" class="section section-community">
       <div class="container">
         <h2>Сообщество</h2>
-        <p class="concept-lead">Проект открыт для тех, кто хочет делиться фотографиями, редкими фактами и идеями для экспозиций. Коротко — о духе сообщества.</p>
+        <p class="concept-lead">Проект открыт для тех, кто хочет делиться фотографиями, редкими фактами и идеями для экспозиций.</p>
         <div class="community-row">
           <div class="community-card">
             <h4>Поддержка</h4>
-            <p>Свяжитесь с нами, если у вас есть материалы, которыми можно дополнить галерею.</p>
+            <p>Свяжитесь с нами, если у вас есть материалы для галереи.</p>
           </div>
           <div class="community-card">
             <h4>Сотрудничество</h4>
@@ -169,150 +152,5 @@
   </footer>
 
   <script src="script.js"></script>
-</body>
-</html>
-
-<body>
-
-<header class="topbar">
-  <div class="container bar-inner">
-
-    <div class="logo-block">
-      <div class="logo"></div>
-      <span class="brand">Россия — История</span>
-    </div>
-
-    <nav class="nav">
-      <a href="#hero">Главная</a>
-      <a href="#directions">Разделы</a>
-      <a href="#materials">Материалы</a>
-      <a href="#about">О проекте</a>
-      <a href="#contact">Контакты</a>
-    </nav>
-
-    <button class="btn-telegram" onclick="openBot()">Telegram</button>
-  </div>
-</header>
-
-
-<section id="hero" class="hero">
-  <div class="container hero-grid">
-
-    <div class="hero-text">
-      <h1>История России<br>в строгой систематизации</h1>
-      <p>
-        Аналитическая презентационная платформа, посвящённая ключевым этапам,
-        персоналиям, достижениям и культурному наследию.
-      </p>
-      <button class="btn-primary" onclick="openBot()">Перейти в Telegram</button>
-    </div>
-
-    <div class="hero-graphic">
-      <div class="grid-overlay"></div>
-    </div>
-
-  </div>
-</section>
-
-
-<section id="directions" class="directions">
-  <div class="container">
-    <h2>Разделы</h2>
-
-    <div class="dir-grid">
-
-      <div class="dir-card">
-        <h3>Вехи истории</h3>
-        <p>Ключевые этапы становления государства.</p>
-      </div>
-
-      <div class="dir-card">
-        <h3>Персоны</h3>
-        <p>Государственные деятели, военные, учёные.</p>
-      </div>
-
-      <div class="dir-card">
-        <h3>Достижения</h3>
-        <p>Промышленность, технология, развитие страны.</p>
-      </div>
-
-      <div class="dir-card">
-        <h3>Военное наследие</h3>
-        <p>Оборона, реформы, кампании.</p>
-      </div>
-
-      <div class="dir-card">
-        <h3>Культура</h3>
-        <p>Искусство, символы, архитектура.</p>
-      </div>
-
-      <div class="dir-card">
-        <h3>Архив</h3>
-        <p>Документы, фонды, справочная база.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-<section id="materials" class="materials">
-  <div class="container">
-    <h2>Материалы</h2>
-
-    <div class="mat-scroll">
-
-      <div class="mat-card">
-        <h4>Хронология IX–XX вв.</h4>
-        <p>Сжатые ключевые точки исторического развития.</p>
-      </div>
-
-      <div class="mat-card">
-        <h4>Военные реформы</h4>
-        <p>Структура, задачи и последствия.</p>
-      </div>
-
-      <div class="mat-card">
-        <h4>Персоны эпох</h4>
-        <p>Краткие профили основных исторических фигур.</p>
-      </div>
-
-      <div class="mat-card">
-        <h4>Культурные пласты</h4>
-        <p>Обзор культурных явлений в разные периоды.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-<section id="about" class="about">
-  <div class="container">
-    <h2>О проекте</h2>
-    <p>
-      Платформа создана для структурного ознакомления с историей России
-      через систематизацию ключевых направлений, персоналий и документальных источников.
-      Формат ориентирован на краткость, точность и строгий стиль подачи.
-    </p>
-  </div>
-</section>
-
-
-<section id="contact" class="contact">
-  <div class="container">
-    <h2>Контакты</h2>
-    <p>Telegram: <a href="https://t.me/Hist0ry0fRussia" target="_blank">t.me/Hist0ry0fRussia</a></p>
-  </div>
-</section>
-
-
-<footer class="footer">
-  <div class="container">
-    © Россия — История, 2025
-  </div>
-</footer>
-
-<script src="script.js"></script>
 </body>
 </html>
