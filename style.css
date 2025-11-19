@@ -49,7 +49,6 @@ html, body{height:100%;background:linear-gradient(180deg,var(--bg),#07101a 75%);
 .section h2{font-size:22px;margin-bottom:8px}
 .small-muted{color:var(--muted);margin-bottom:16px}
 
-/* Вертикальные карточки с эффектом увеличения при прокрутке */
 .themes-grid {
   display: flex;
   flex-direction: column;
@@ -63,13 +62,15 @@ html, body{height:100%;background:linear-gradient(180deg,var(--bg),#07101a 75%);
   border:1px solid rgba(255,255,255,0.06);
   backdrop-filter: blur(12px);
   box-shadow:0 8px 30px rgba(0,0,0,0.55);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
-/* Акцентная карточка при попадании в центр окна */
+/* Активная карточка при попадании в центр экрана */
 .theme-card.active {
   transform: scale(1.08);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.65);
+  box-shadow: 0 20px 50px rgba(255,255,240,0.7); /* подсветка */
+  background-color: rgba(255,255,240,0.05); /* бежево-белая подсветка */
+  border-color: rgba(255,255,255,0.2);
   z-index:2;
 }
 
@@ -88,7 +89,7 @@ html, body{height:100%;background:linear-gradient(180deg,var(--bg),#07101a 75%);
 .media-card{
   flex:0 0 auto;
   width:200px;
-  height:360px; /* vertical 9:16 */
+  height:360px;
   border-radius:12px;
   background-size:cover;
   background-position:center;
