@@ -54,10 +54,10 @@ html,body{height:100%;background:linear-gradient(180deg,var(--bg),#07101a 75%);c
 .theme-card h3{margin:0 0 8px}
 .theme-card p{color:var(--muted);margin:0}
 
-/* GALLERY вертикальная */
-.gallery-vertical{display:flex;flex-direction:column;gap:18px;overflow-y:auto;scroll-snap-type:y mandatory;max-height:500px;padding-right:6px}
-.media-card{flex:0 0 auto;height:300px;width:100%;border-radius:12px;background-size:cover;background-position:center;border:1px solid rgba(255,255,255,0.06);box-shadow:0 10px 30px rgba(0,0,0,0.6);scroll-snap-align:start;transition:transform .22s ease,filter .22s ease}
-.media-card:hover{transform:scale(1.03);filter:brightness(1.04)}
+/* GALLERY горизонтальная snap */
+.gallery-horizontal{display:flex;gap:18px;overflow:hidden;scroll-snap-type:x mandatory;cursor:grab}
+.gallery-horizontal.grabbing{cursor:grabbing}
+.media-card{flex:0 0 auto;width:200px;height:360px;border-radius:12px;background-size:cover;background-position:center;box-shadow:0 10px 30px rgba(0,0,0,0.6);scroll-snap-align:start;user-select:none}
 
 /* COMMUNITY */
 .community-row{display:flex;gap:18px;margin-top:16px}
@@ -72,5 +72,5 @@ html,body{height:100%;background:linear-gradient(180deg,var(--bg),#07101a 75%);c
 
 /* RESPONSIVE */
 @media (max-width:1100px){.hero-inner{grid-template-columns:1fr 360px}.themes-grid{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:800px){.header-inner{flex-direction:row;gap:10px}.nav{display:none}.hero-inner{grid-template-columns:1fr;gap:20px}.hero-left h1{font-size:28px}.hero-card{order:2}.themes-grid{grid-template-columns:1fr}.gallery-vertical{max-height:400px}.community-row{flex-direction:column}}
-@media (max-width:420px){.container{padding:18px}.logo{width:40px;height:40px}.hero-left h1{font-size:22px}.gallery-vertical{max-height:300px}}
+@media (max-width:800px){.header-inner{flex-direction:row;gap:10px}.nav{display:none}.hero-inner{grid-template-columns:1fr;gap:20px}.hero-left h1{font-size:28px}.hero-card{order:2}.themes-grid{grid-template-columns:1fr}}
+@media (max-width:420px){.container{padding:18px}.logo{width:40px;height:40px}.hero-left h1{font-size:22px}}
