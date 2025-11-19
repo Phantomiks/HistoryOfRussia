@@ -15,11 +15,10 @@ document.addEventListener("click",(e)=>{
   if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
 });
 
-// Горизонтальная галерея (как раньше)
+// HORIZONTAL GALLERY
 const gallery = document.querySelector('.gallery-horizontal');
 let isDown = false, startX, scrollLeft;
 
-// Drag мышью
 gallery.addEventListener('mousedown', e=>{
   isDown = true;
   gallery.classList.add('grabbing');
@@ -48,13 +47,11 @@ gallery.addEventListener('touchmove', e=>{
 });
 gallery.addEventListener('touchend', snapToCard);
 
-// Snap к ближайшей карточке
 function snapToCard(){
   const cards = [...gallery.querySelectorAll('.media-card')];
   const galleryCenter = gallery.scrollLeft + gallery.offsetWidth/2;
   let closest = cards[0];
   let closestDiff = Math.abs((cards[0].offsetLeft + cards[0].offsetWidth/2) - galleryCenter);
-
   for(const card of cards){
     const cardCenter = card.offsetLeft + card.offsetWidth/2;
     const diff = Math.abs(cardCenter - galleryCenter);
@@ -71,12 +68,10 @@ const themeCards = [...document.querySelectorAll('.theme-card')];
 
 function updateActiveThemeOnScroll() {
   const windowCenter = window.innerHeight / 2;
-
   themeCards.forEach(card => {
     const rect = card.getBoundingClientRect();
     const cardCenter = rect.top + rect.height / 2;
     const distance = Math.abs(windowCenter - cardCenter);
-
     if(distance < rect.height / 2) {
       card.classList.add('active');
     } else {
@@ -85,8 +80,18 @@ function updateActiveThemeOnScroll() {
   });
 }
 
-// Отслеживаем вертикальный скролл
 window.addEventListener('scroll', updateActiveThemeOnScroll);
 window.addEventListener('resize', updateActiveThemeOnScroll);
 updateActiveThemeOnScroll();
+
+// --- Smooth Scrollbar для всей страницы ---
+<script src="https://cdn.jsdelivr.net/npm/smooth-scrollbar@8.7.4/dist/smooth-scrollbar.js"></script>
+<script>
+  Scrollbar.init(document.body, {
+    damping: 0.09, // "тяжёлая" прокрутка
+    renderByPixels: true,
+    thumbMinSize: 20,
+    continuousScrolling: false
+  });
+</script>
 
