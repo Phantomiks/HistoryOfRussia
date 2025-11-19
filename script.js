@@ -88,7 +88,7 @@ updateActiveThemeOnScroll();
 <script src="https://cdn.jsdelivr.net/npm/smooth-scrollbar@8.7.4/dist/smooth-scrollbar.js"></script>
 <script>
   Scrollbar.init(document.body, {
-    damping: 0.09, // "тяжёлая" прокрутка
+    damping: 0.12, // "тяжёлая" прокрутка
     renderByPixels: true,
     thumbMinSize: 20,
     continuousScrolling: false
