@@ -15,30 +15,39 @@ document.addEventListener("click", (e) => {
   if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
 });
 
-// Галерея свайп (вертикальный drag/scroll)
-const gallery = document.querySelector('.gallery-vertical');
-let isDown = false, startY, scrollTop;
+// Горизонтальная карусель с drag/snap
+const gallery = document.querySelector('.gallery-horizontal');
+let isDown = false, startX, scrollLeft;
 
-gallery.addEventListener('mousedown', (e)=>{
-  isDown = true;
-  startY = e.pageY - gallery.offsetTop;
-  scrollTop = gallery.scrollTop;
+gallery.addEventListener('mousedown', e=>{
+  isDown=true;
+  gallery.classList.add('grabbing');
+  startX=e.pageX - gallery.offsetLeft;
+  scrollLeft=gallery.scrollLeft;
 });
-gallery.addEventListener('mouseleave', ()=>isDown=false);
-gallery.addEventListener('mouseup', ()=>isDown=false);
-gallery.addEventListener('mousemove', (e)=>{
+gallery.addEventListener('mouseleave', ()=>{isDown=false; gallery.classList.remove('grabbing');});
+gallery.addEventListener('mouseup', ()=>{isDown=false; gallery.classList.remove('grabbing'); snapToCard();});
+gallery.addEventListener('mousemove', e=>{
   if(!isDown) return;
   e.preventDefault();
-  const y = e.pageY - gallery.offsetTop;
-  const walk = (startY - y) * 1.5;
-  gallery.scrollTop = scrollTop + walk;
+  const x=e.pageX - gallery.offsetLeft;
+  const walk=(startX - x);
+  gallery.scrollLeft = scrollLeft + walk;
 });
 
-// Для touch устройств
-gallery.addEventListener('touchstart', (e)=>{
-  startY = e.touches[0].pageY;
-  scrollTop = gallery.scrollTop;
+// Touch support
+gallery.addEventListener('touchstart', e=>{
+  startX = e.touches[0].pageX - gallery.offsetLeft;
+  scrollLeft = gallery.scrollLeft;
 });
-gallery.addEventListener('touchmove', (e)=>{
-  const y = e.touches[0].pageY;
-  const walk = (startY - y)
+gallery.addEventListener('touchmove', e=>{
+  const x = e.touches[0].pageX - gallery.offsetLeft;
+  const walk = startX - x;
+  gallery.scrollLeft = scrollLeft + walk;
+});
+gallery.addEventListener('touchend', snapToCard);
+
+// Snap функция на ближайшую карточку
+function snapToCard(){
+  const cards = [...gallery.querySelectorAll('.media-card')];
+ 
