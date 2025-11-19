@@ -15,7 +15,7 @@ document.addEventListener("click",(e)=>{
   if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
 });
 
-// HORIZONTAL CAROUSEL
+// Горизонтальная галерея (как раньше)
 const gallery = document.querySelector('.gallery-horizontal');
 let isDown = false, startX, scrollLeft;
 
@@ -65,3 +65,28 @@ function snapToCard(){
   }
   gallery.scrollTo({left: closest.offsetLeft, behavior: 'smooth'});
 }
+
+// --- Эффект увеличения темы при вертикальной прокрутке ---
+const themeCards = [...document.querySelectorAll('.theme-card')];
+
+function updateActiveThemeOnScroll() {
+  const windowCenter = window.innerHeight / 2;
+
+  themeCards.forEach(card => {
+    const rect = card.getBoundingClientRect();
+    const cardCenter = rect.top + rect.height / 2;
+    const distance = Math.abs(windowCenter - cardCenter);
+
+    if(distance < rect.height / 2) {
+      card.classList.add('active');
+    } else {
+      card.classList.remove('active');
+    }
+  });
+}
+
+// Отслеживаем вертикальный скролл
+window.addEventListener('scroll', updateActiveThemeOnScroll);
+window.addEventListener('resize', updateActiveThemeOnScroll);
+updateActiveThemeOnScroll();
+
