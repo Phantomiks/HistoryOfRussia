@@ -5,7 +5,9 @@
   --accent:#b71c1c;
   --radius:12px;
   --container:1100px;
-  font-family: Inter, Arial, sans-seri
+  font-family: Inter, Arial, sans-serif;
+}
+
 *{box-sizing:border-box;}
 body{
   margin:0;
