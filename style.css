@@ -48,12 +48,30 @@ html, body{height:100%;background:linear-gradient(180deg,var(--bg),#07101a 75%);
 .section{padding:48px 0}
 .section h2{font-size:22px;margin-bottom:8px}
 .small-muted{color:var(--muted);margin-bottom:16px}
-.themes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:16px}
-.theme-card{padding:20px;border-radius:14px;background:var(--panel);border:1px solid rgba(255,255,255,0.06);backdrop-filter: blur(12px);box-shadow:0 8px 30px rgba(0,0,0,0.55);transition: transform .22s ease, box-shadow .22s ease}
-.theme-card:hover{transform:translateY(-6px);box-shadow:0 18px 48px rgba(0,0,0,0.65)}
-.theme-icon{font-size:28px;margin-bottom:10px}
-.theme-card h3{margin:0 0 8px}
-.theme-card p{color:var(--muted);margin:0}
+
+/* Вертикальные карточки с эффектом увеличения при прокрутке */
+.themes-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.theme-card {
+  padding:20px;
+  border-radius:14px;
+  background: var(--panel);
+  border:1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  box-shadow:0 8px 30px rgba(0,0,0,0.55);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Акцентная карточка при попадании в центр окна */
+.theme-card.active {
+  transform: scale(1.08);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.65);
+  z-index:2;
+}
 
 /* HORIZONTAL GALLERY */
 .gallery-horizontal{
@@ -91,6 +109,7 @@ html, body{height:100%;background:linear-gradient(180deg,var(--bg),#07101a 75%);
 .foot-links a:hover{color:#fff}
 
 /* RESPONSIVE */
-@media (max-width:1100px){.hero-inner{grid-template-columns:1fr 360px}.themes-grid{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:800px){.header-inner{flex-direction:row;gap:10px}.nav{display:none}.hero-inner{grid-template-columns:1fr;gap:20px}.hero-left h1{font-size:28px}.hero-card{order:2}.themes-grid{grid-template-columns:1fr}}
+@media (max-width:1100px){.hero-inner{grid-template-columns:1fr 360px}.themes-grid{gap:16px}}
+@media (max-width:800px){.header-inner{flex-direction:row;gap:10px}.nav{display:none}.hero-inner{grid-template-columns:1fr;gap:20px}.hero-left h1{font-size:28px}.hero-card{order:2}}
 @media (max-width:420px){.container{padding:18px}.logo{width:40px;height:40px}.hero-left h1{font-size:22px}}
+
