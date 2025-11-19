@@ -9,8 +9,10 @@
 }
 
 *{box-sizing:border-box;}
-body{
+body, html{
   margin:0;
+  padding:0;
+  overflow-x:hidden; /* запрет горизонтального скролла */
   background:linear-gradient(180deg,var(--bg),#07101a 70%);
   color:#e6eef6;
   line-height:1.45;
@@ -161,6 +163,9 @@ body{
   font-size:14px;
   min-height:90px;
   color:var(--muted);
+  white-space: pre-wrap;  /* перенос строк */
+  word-break: break-word; /* разрыв длинных слов */
+  overflow-x: hidden;     /* убираем горизонтальный скролл */
 }
 
 /* ABOUT */
