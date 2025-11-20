@@ -8,33 +8,203 @@
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
-/* reset */
-*{box-sizing:border-box;margin:0;padding:0;}
-html, body{height:100%;color:#e8f0f8;line-height:1.45;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
-.container{max-width:var(--container);margin:0 auto;padding:28px}
-body{background:linear-gradient(180deg,var(--bg),#07101a 75%);}
+/* RESET */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html, body{
+  height:100%;
+  color:#e8f0f8;
+  background:#05070a;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* Фон на всю страницу без обрезов */
+body{
+  background:linear-gradient(180deg,#05070a,#07101a 80%) fixed;
+}
+
+/* Универсальный контейнер */
+.container{
+  max-width:var(--container);
+  width:100%;
+  margin:0 auto;
+  padding:0 22px; /* минимум без лишних пробелов */
+}
 
 /* HEADER */
-.site-header{position:sticky;top:0;z-index:80;background: rgba(8,10,12,0.6);backdrop-filter:blur(10px) saturate(140%);border-bottom:1px solid rgba(255,255,255,0.06);}
-.header-inner{display:flex;align-items:center;justify-content:space-between;gap:18px}
-.brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
-.logo{width:46px;height:46px;border-radius:12px;object-fit:cover;background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.12);box-shadow:0 6px 22px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.02);transition: transform .22s ease, box-shadow .22s ease;}
-.logo:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 10px 30px rgba(0,0,0,0.6);}
-.brand-text .title{font-weight:800;font-size:18px;color:#fff}
-.brand-text .subtitle{font-size:12px;color:var(--muted);}
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:80;
+  background:rgba(8,10,12,0.6);
+  backdrop-filter:blur(10px) saturate(140%);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  padding:10px 0; /* плотнее */
+}
 
-.nav{display:flex;gap:14px;align-items:center}
-.nav-link{color:var(--muted);text-decoration:none;padding:8px 10px;border-radius:8px;font-weight:600;transition:all .18s ease}
-.nav-link:hover{background:rgba(255,255,255,0.04);color:#fff}
+.header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
 
-.header-actions .cta{padding:10px 16px;border-radius:12px;border:1px solid rgba(255,255,255,0.12);background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));color:#fff;font-weight:700;cursor:pointer;backdrop-filter: blur(6px);}
-.header-actions .cta:hover{background: linear-gradient(90deg, rgba(255,60,60,0.18), rgba(255,20,20,0.14));box-shadow:0 6px 26px rgba(255,40,40,0.12)}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{
+  width:44px;height:44px;
+  border-radius:12px;
+  object-fit:cover;
+  border:1px solid rgba(255,255,255,0.12);
+}
+
+/* NAV */
+.nav{display:flex;gap:12px}
+.nav-link{
+  color:var(--muted);
+  text-decoration:none;
+  padding:6px 8px;
+  border-radius:8px;
+  transition:.18s ease;
+}
+.nav-link:hover{
+  background:rgba(255,255,255,0.04);
+  color:#fff;
+}
 
 /* HERO */
-.hero{padding:56px 0 28px}
-.hero-inner{display:grid;grid-template-columns:1fr 420px;gap:32px;align-items:center}
-.hero-left h1{font-size:40px;line-height:1.02;margin-bottom:10px}
-.hero-left .accent{color:var(--accent);text-shadow:0 6px 30px rgba(255,60,60,0.06)}
+.hero{
+  padding:40px 0 20px; /* чётко без лишних пробелов */
+}
+.hero-inner{
+  display:grid;
+  grid-template-columns:1fr 420px;
+  gap:28px;
+  align-items:center;
+}
+.hero-left h1{
+  font-size:40px;
+  margin-bottom:8px;
+}
+.lead{
+  color:var(--muted);
+  max-width:640px;
+  margin-bottom:16px;
+}
+
+/* Кнопки */
+.btn{padding:10px 16px;border-radius:12px;font-weight:700;cursor:pointer;border:0}
+.btn-primary{
+  background:linear-gradient(90deg,var(--accent), #ff6b6b);
+  color:#fff;
+}
+.btn-ghost{
+  background:rgba(255,255,255,0.02);
+  color:var(--muted);
+  border:1px solid rgba(255,255,255,0.04);
+}
+
+/* HERO CARD */
+.hero-card{
+  padding:18px;
+  border-radius:16px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.06);
+}
+
+/* SECTIONS */
+.section{
+  padding:40px 0; /* равномерно */
+}
+.section h2{
+  font-size:22px;
+  margin-bottom:6px;
+}
+.small-muted{
+  color:var(--muted);
+  margin-bottom:14px;
+}
+
+/* THEMES */
+.themes-grid{
+  display:flex;
+  flex-direction:column;
+  gap:14px; /* плотнее */
+}
+
+.theme-card{
+  padding:18px;
+  border-radius:14px;
+  background:var(--panel);
+  border:1px solid rgba(255,255,255,0.06);
+  backdrop-filter:blur(12px);
+  transition:.3s ease;
+}
+
+/* ACTIVE THEME */
+.theme-card.active{
+  transform:scale(1.06);
+  background-color:rgba(255,255,240,0.07);
+  border-color:rgba(255,255,255,0.18);
+  box-shadow:0 0 28px 10px rgba(255,255,240,0.5);
+}
+
+/* GALLERY */
+.gallery-horizontal{
+  display:flex;
+  gap:14px;
+  overflow:hidden;
+  scroll-snap-type:x mandatory;
+  cursor:grab;
+}
+
+.media-card{
+  flex:0 0 auto;
+  width:200px;
+  height:360px;
+  border-radius:12px;
+  background-size:cover;
+  background-position:center;
+  box-shadow:0 10px 30px rgba(0,0,0,0.6);
+  scroll-snap-align:start;
+}
+
+/* COMMUNITY */
+.community-row{
+  display:flex;
+  gap:16px;
+  margin-top:14px;
+}
+.community-card{
+  flex:1;
+  padding:16px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.06);
+}
+
+/* FOOTER */
+.site-footer{
+  padding:18px 0;
+  margin-top:20px;
+  border-top:1px solid rgba(255,255,255,0.06);
+  color:var(--muted);
+}
+
+/* RESPONSIVE */
+@media(max-width:800px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-left h1{font-size:30px}
+}
+@media(max-width:420px){
+  .container{padding:0 16px}
+  .logo{width:38px;height:38px}
+  .hero-left h1{font-size:24px}
+}.hero-left .accent{color:var(--accent);text-shadow:0 6px 30px rgba(255,60,60,0.06)}
 .lead{color:var(--muted);max-width:680px;margin-bottom:18px}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
 .btn{padding:12px 18px;border-radius:12px;font-weight:700;cursor:pointer;border:0}
