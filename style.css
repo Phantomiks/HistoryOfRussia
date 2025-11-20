@@ -235,22 +235,32 @@ body{
 }
 
 /* COMMUNITY */
-.community-row{
-  display:flex;
-  gap:18px;
-  margin-top:16px;
+.community-row {
+  display: flex;
+  gap: 18px;
+  margin-top: 16px;
+  flex-direction: column; /* вертикально на мобильных */
 }
-.community-card{
-  flex:1;
-  padding:18px;
-  border-radius:12px;
-  background:rgba(255,255,255,0.03);
-  border:1px solid rgba(255,255,255,0.06);
-  box-shadow:0 8px 30px rgba(0,0,0,0.55);
+
+@media (min-width: 768px) {
+  .community-row {
+    flex-direction: row; /* горизонтально на планшетах и больше */
+  }
 }
-.community-card h4{
-  margin:0 0 8px;
+
+.community-card {
+  flex: 1;
+  padding: 18px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.55);
 }
+
+.community-card h4 {
+  margin: 0 0 8px;
+}
+
 
 /* FOOTER */
 .site-footer{
