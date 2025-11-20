@@ -7,43 +7,58 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <!-- ===================== -->
-  <!-- GLASS HEADER -->
-  <!-- ===================== -->
-  <header class="glass-header">
-    <div class="header-content">
-      <div class="header-left">
-        <img src="Avatar.jpg" class="bot-icon" alt="Россия — История">
-        <div class="title-block">
-          <h1>Россия.</h1>
-          <span>История, которой мы гордимся</span>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img class="logo" src="Avatar.jpg" alt="Россия — История">
+        <div class="brand-text">
+          <div class="title">Россия.</div>
+          <div class="subtitle">История, которой мы гордимся</div>
         </div>
       </div>
-      <button class="tg-btn" onclick="openBot()">Перейти в Telegram</button>
+      <nav class="nav">
+        <a class="nav-link" href="#concept">О проекте</a>
+        <a class="nav-link" href="#themes">Темы</a>
+        <a class="nav-link" href="#gallery">Галерея</a>
+        <a class="nav-link" href="#community">Сообщество</a>
+        <a class="nav-link" href="#contact">Контакты</a>
+      </nav>
+      <div class="header-actions">
+        <button class="cta" onclick="openBot()">Перейти в Telegram</button>
+      </div>
     </div>
   </header>
 
-  <!-- ===================== -->
-  <!-- HERO -->
-  <!-- ===================== -->
-  <section class="hero">
-    <img src="Airbrush-image-extender (4).jpeg" class="hero-img" alt="">
-    <div class="hero-text">
-      <h2>Россия — <span>История которой мы гордимся</span></h2>
-      <p>Погрузитесь в историю России через ключевые эпохи, выдающихся личностей и культурные шедевры — кратко, наглядно и впечатляюще.</p>
-    </div>
-  </section>
-
-  <!-- ===================== -->
-  <!-- Существующие секции сайта -->
-  <!-- ===================== -->
   <main>
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="container hero-inner">
+        <div class="hero-left">
+          <h1>Россия —<br><span class="accent">История</span>, которой мы гордимся</h1>
+          <p class="lead">Погрузитесь в историю России через ключевые эпохи, выдающихся личностей и культурные шедевры — кратко, наглядно и впечатляюще</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="openBot()">Открыть Telegram</button>
+            <a class="btn btn-ghost" href="#concept">Узнать больше</a>
+          </div>
+        </div>
+        <div class="hero-right">
+          <figure class="hero-card">
+            <div class="card-content">
+              <h3>Миссия</h3>
+              <p>Делиться историей так, чтобы она вызывала уважение и интерес — без сложных инструкций, только смысл и образ.</p>
+            </div>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONCEPT -->
     <section id="concept" class="section section-concept container">
       <h2>О проекте</h2>
       <p class="concept-lead">Откройте для себя историю России через ключевые события и выдающихся людей — быстро, наглядно и вдохновляюще.</p>
     </section>
 
+    <!-- THEMES -->
     <section id="themes" class="section section-themes">
       <div class="container">
         <h2>Темы</h2>
@@ -83,6 +98,7 @@
       </div>
     </section>
 
+    <!-- GALLERY -->
     <section id="gallery" class="section section-gallery">
       <div class="container">
         <h2>Галерея</h2>
@@ -96,6 +112,7 @@
       </div>
     </section>
 
+    <!-- COMMUNITY -->
     <section id="community" class="section section-community">
       <div class="container">
         <h2>Канал</h2>
@@ -113,6 +130,7 @@
       </div>
     </section>
 
+    <!-- CONTACT -->
     <section id="contact" class="section section-contact">
       <div class="container">
         <h2>Контакты</h2>
