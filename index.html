@@ -7,58 +7,45 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <div class="brand">
-        <img class="logo" src="Avatar.jpg" alt="Россия — История">
-        <div class="brand-text">
-          <div class="title">Россия.</div>
-          <div class="subtitle">История, которой мы гордимся</div>
+
+  <!-- ===================== -->
+  <!-- GLASS HEADER (КиноПоиск) -->
+  <!-- ===================== -->
+  <header class="glass-header">
+    <div class="header-content">
+      <div class="header-left">
+        <img src="Avatar.jpg" class="bot-icon" alt="Россия — История">
+        <div class="title-block">
+          <h1>Россия.</h1>
+          <span>История, которой мы гордимся</span>
         </div>
       </div>
-      <nav class="nav">
-        <a class="nav-link" href="#concept">О проекте</a>
-        <a class="nav-link" href="#themes">Темы</a>
-        <a class="nav-link" href="#gallery">Галерея</a>
-        <a class="nav-link" href="#community">Сообщество</a>
-        <a class="nav-link" href="#contact">Контакты</a>
-      </nav>
-      <div class="header-actions">
-        <button class="cta" onclick="openBot()">Перейти в Telegram</button>
-      </div>
+      <button class="tg-btn" onclick="openBot()">Перейти в Telegram</button>
     </div>
   </header>
 
-  <main>
-    <!-- HERO -->
-    <section class="hero" id="hero">
-      <div class="container hero-inner">
-        <div class="hero-left">
-          <h1>Россия —<br><span class="accent">История</span>, которой мы гордимся</h1>
-          <p class="lead">Погрузитесь в историю России через ключевые эпохи, выдающихся личностей и культурные шедевры — кратко, наглядно и впечатляюще</p>
-          <div class="hero-actions">
-            <button class="btn btn-primary" onclick="openBot()">Открыть Telegram</button>
-            <a class="btn btn-ghost" href="#concept">Узнать больше</a>
-          </div>
-        </div>
-        <div class="hero-right">
-          <figure class="hero-card">
-            <div class="card-content">
-              <h3>Миссия</h3>
-              <p>Делиться историей так, чтобы она вызывала уважение и интерес — без сложных инструкций, только смысл и образ.</p>
-            </div>
-          </figure>
-        </div>
-      </div>
-    </section>
+  <!-- ===================== -->
+  <!-- HERO ФОТО -->
+  <!-- ===================== -->
+  <section class="hero">
+    <img src="hero.jpg" class="hero-img" alt="">
+    <div class="hero-text">
+      <h2>Россия — <span>История которой мы гордимся</span></h2>
+      <p>Погрузитесь в историю России через ключевые эпохи, выдающихся личностей и культурные шедевры — кратко, наглядно и впечатляюще.</p>
+    </div>
+  </section>
 
-    <!-- CONCEPT -->
+  <!-- ===================== -->
+  <!-- Существующие секции сайта -->
+  <!-- ===================== -->
+  <main>
+    <!-- О проекте -->
     <section id="concept" class="section section-concept container">
       <h2>О проекте</h2>
       <p class="concept-lead">Откройте для себя историю России через ключевые события и выдающихся людей — быстро, наглядно и вдохновляюще.</p>
     </section>
 
-    <!-- THEMES -->
+    <!-- Темы -->
     <section id="themes" class="section section-themes">
       <div class="container">
         <h2>Темы</h2>
@@ -79,26 +66,11 @@
             <h3>Битвы</h3>
             <p>Знаковые сражения и военные кампании, определившие судьбу страны.</p>
           </article>
-          <article class="theme-card">
-            <div class="theme-icon">🛰️</div>
-            <h3>Техника</h3>
-            <p>Важные изобретения, инженерные достижения и технологические новшества России.</p>
-          </article>
-          <article class="theme-card">
-            <div class="theme-icon">🎖️</div>
-            <h3>Награды</h3>
-            <p>Знаки отличия и ордена, отражающие подвиги и заслуги людей.</p>
-          </article>
-          <article class="theme-card">
-            <div class="theme-icon">🪖</div>
-            <h3>Мировые войны</h3>
-            <p>Влияние глобальных конфликтов на Россию и её людей.</p>
-          </article>
         </div>
       </div>
     </section>
 
-    <!-- GALLERY -->
+    <!-- Галерея -->
     <section id="gallery" class="section section-gallery">
       <div class="container">
         <h2>Галерея</h2>
@@ -106,31 +78,11 @@
         <div class="gallery-horizontal">
           <div class="media-card" style="background-image: url('https://i.postimg.cc/52Y9GMLW/Airbrush-image-extender-4.jpg')"></div>
           <div class="media-card" style="background-image: url('https://picsum.photos/id/1015/360/640')"></div>
-          <div class="media-card" style="background-image: url('https://picsum.photos/id/1016/360/640')"></div>
-          <div class="media-card" style="background-image: url('https://picsum.photos/id/1025/360/640')"></div>
         </div>
       </div>
     </section>
 
-    <!-- COMMUNITY -->
-    <section id="community" class="section section-community">
-      <div class="container">
-        <h2>Канал</h2>
-        <p class="concept-lead">Наш канал служит для связи и уведомлений о новых материалах проекта.</p>
-        <div class="community-row">
-          <div class="community-card">
-            <h4>Поддержка</h4>
-            <p>Свяжитесь с нами, если есть материалы для галереи.</p>
-          </div>
-          <div class="community-card">
-            <h4>...</h4>
-            <p></p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
+    <!-- Контакты -->
     <section id="contact" class="section section-contact">
       <div class="container">
         <h2>Контакты</h2>
@@ -139,6 +91,9 @@
     </section>
   </main>
 
+  <!-- ===================== -->
+  <!-- FOOTER -->
+  <!-- ===================== -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-row">
@@ -148,6 +103,73 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- ===================== -->
+  <!-- JS -->
+  <!-- ===================== -->
+  <script>
+    const BOT_USERNAME = "Hist0ry_of_Russia_bot";
+    function openBot() {
+      if (!BOT_USERNAME) return;
+      window.open("https://t.me/" + BOT_USERNAME, "_blank");
+    }
+
+    // Smooth scroll
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+      e.preventDefault();
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    // Галерея горизонтальная
+    const gallery = document.querySelector('.gallery-horizontal');
+    let isDown = false, startX, scrollLeft;
+
+    gallery.addEventListener('mousedown', e => {
+      isDown = true;
+      gallery.classList.add('grabbing');
+      startX = e.pageX - gallery.offsetLeft;
+      scrollLeft = gallery.scrollLeft;
+    });
+    gallery.addEventListener('mouseleave', () => { isDown = false; gallery.classList.remove('grabbing'); snapToCard(); });
+    gallery.addEventListener('mouseup', () => { isDown = false; gallery.classList.remove('grabbing'); snapToCard(); });
+    gallery.addEventListener('mousemove', e => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - gallery.offsetLeft;
+      const walk = startX - x;
+      gallery.scrollLeft = scrollLeft + walk;
+    });
+    gallery.addEventListener('touchstart', e => {
+      startX = e.touches[0].pageX - gallery.offsetLeft;
+      scrollLeft = gallery.scrollLeft;
+    });
+    gallery.addEventListener('touchmove', e => {
+      const x = e.touches[0].pageX - gallery.offsetLeft;
+      const walk = startX - x;
+      gallery.scrollLeft = scrollLeft + walk;
+    });
+    gallery.addEventListener('touchend', snapToCard);
+
+    function snapToCard() {
+      const cards = [...gallery.querySelectorAll('.media-card')];
+      const galleryCenter = gallery.scrollLeft + gallery.offsetWidth / 2;
+      let closest = cards[0];
+      let closestDiff = Math.abs((cards[0].offsetLeft + cards[0].offsetWidth / 2) - galleryCenter);
+      for (const card of cards) {
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        const diff = Math.abs(cardCenter - galleryCenter);
+        if (diff < closestDiff) {
+          closest = card;
+          closestDiff = diff;
+        }
+      }
+      gallery.scrollTo({ left: closest.offsetLeft, behavior: 'smooth' });
+    }
+
+  </script>
+
 </body>
 </html>
