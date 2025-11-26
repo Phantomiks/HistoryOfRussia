@@ -1,4 +1,4 @@
-// script.js — игра с поддержкой приглашения
+// script.js — Игра с приглашением и синхронным матчем
 // Работает с Telegram WebApp API для отправки результатов
 
 // --------- Конфигурация ----------
@@ -23,6 +23,7 @@ const QUESTIONS = [
 const screenStart = document.getElementById('screen-start');
 const screenQuiz  = document.getElementById('screen-quiz');
 const screenEnd   = document.getElementById('screen-end');
+const screenWaiting = document.getElementById('screen-waiting'); // экран ожидания
 
 const inviteBtn = document.getElementById('inviteBtn');
 const rateBtn = document.getElementById('rateBtn');
@@ -56,192 +57,194 @@ let userId = null;
 
 // --------- Telegram WebApp ----------
 let tg = window.Telegram ? window.Telegram.WebApp : null;
-if (tg) {
-  try {
-    const info = tg.initDataUnsafe && tg.initDataUnsafe.user;
-    if (info && info.id) userId = info.id;
-    tg.expand();
-  } catch(e){ console.warn("tg init error", e); }
+if(tg){
+    try{
+        const info = tg.initDataUnsafe && tg.initDataUnsafe.user;
+        if(info && info.id) userId = info.id;
+        tg.expand();
+    } catch(e){ console.warn("Telegram init error", e); }
 }
 
-// --------- WebSocket для онлайн ----------
+// --------- WebSocket и логика приглашения ----------
 let ws = null;
-let playerId = Math.floor(Math.random()*100000);
+let playerId = Math.floor(Math.random()*1000000);
 let opponentId = null;
-let inviteId = getQueryParam("invite");
+let gameId = getQueryParam("gameId"); // если игрок пришел по приглашению
 
-// Инициализация WS
 function initWebSocket(isInvite){
-  ws = new WebSocket("wss://ВАШ_ДОМЕН/ws"); // серверный WS
-  ws.onopen = () => {
-    if(isInvite){
-      ws.send(JSON.stringify({type:"join_invite", playerId, inviteId}));
-    } else {
-      ws.send(JSON.stringify({type:"join", playerId}));
-    }
-  };
-  ws.onmessage = (msg) => {
-    const data = JSON.parse(msg.data);
-    if(data.type === "start"){
-      opponentId = data.opponentId;
-      startGame(modeRating); // запускаем игру после подключения обоих
-    }
-  };
+    ws = new WebSocket("wss://ВАШ_ДОМЕН/ws");
+    ws.onopen = () => {
+        if(isInvite){
+            ws.send(JSON.stringify({type:"join_game", playerId, gameId}));
+            showWaitingScreen();
+        }
+    };
+    ws.onmessage = (msg) => {
+        const data = JSON.parse(msg.data);
+        if(data.type==="start_game"){
+            hideWaitingScreen();
+            questions = data.questions;
+            startGame(modeRating);
+        }
+    };
 }
 
-// --------- Мод выбора режима ----------
-if(inviteId){
-  // игрок пришёл по ссылке → автоматически WS join_invite
-  initWebSocket(true);
-} else {
-  inviteBtn.addEventListener('click', ()=>{
-    const url = window.location.href + "?invite=" + playerId;
-    navigator.clipboard?.writeText(url).then(()=> alert("Ссылка скопирована! Отправь другу."))
-      .catch(()=> prompt("Скопируй ссылку вручную:", url));
-    initWebSocket(false);
-  });
+// --------- Экран ожидания ---------
+function showWaitingScreen(){
+    screenStart.classList.add('hidden');
+    screenQuiz.classList.add('hidden');
+    screenEnd.classList.add('hidden');
+    screenWaiting.classList.remove('hidden');
+}
+function hideWaitingScreen(){
+    screenWaiting.classList.add('hidden');
+}
 
-  rateBtn.addEventListener('click', ()=> startGame(true));
-  casualBtn.addEventListener('click', ()=> startGame(false));
+// --------- Мод выбора режима ---------
+if(gameId){
+    // игрок пришел по ссылке
+    initWebSocket(true);
+}else{
+    inviteBtn.addEventListener('click', ()=>{
+        gameId = Date.now() + "_" + Math.floor(Math.random()*10000);
+        const url = `${window.location.href}?gameId=${gameId}`;
+        tg.openLink ? tg.openLink(url) : navigator.clipboard?.writeText(url).then(()=> alert("Ссылка скопирована! Отправь другу."));
+        initWebSocket(false);
+        showWaitingScreen();
+    });
+
+    rateBtn.addEventListener('click', ()=> startGame(true));
+    casualBtn.addEventListener('click', ()=> startGame(false));
 }
 
 // --------- Старт игры ----------
 function startGame(isRating){
-  modeRating = !!isRating;
-  questions = shuffleArray(QUESTIONS).slice(0, TOTAL_QUESTIONS);
-  current = 0;
-  correctCount = 0;
-  timeLeft = TIME_PER_QUESTION;
+    modeRating = !!isRating;
+    if(!questions.length) questions = shuffleArray(QUESTIONS).slice(0,TOTAL_QUESTIONS);
+    current = 0;
+    correctCount = 0;
+    timeLeft = TIME_PER_QUESTION;
 
-  modeLabel.innerText = modeRating ? "Рейтинг" : "Без рейтинга";
-  screenStart.classList.add('hidden');
-  screenEnd.classList.add('hidden');
-  screenQuiz.classList.remove('hidden');
+    modeLabel.innerText = modeRating ? "Рейтинг" : "Без рейтинга";
+    screenStart.classList.add('hidden');
+    screenEnd.classList.add('hidden');
+    screenQuiz.classList.remove('hidden');
 
-  updateProgress();
-  showQuestion();
+    updateProgress();
+    showQuestion();
 }
 
 // --------- Показ вопроса ----------
 function showQuestion(){
-  if(current >= questions.length){
-    finishGame();
-    return;
-  }
-  const q = questions[current];
-  qIndexEl.innerText = `Вопрос ${current+1}/${questions.length}`;
-  questionText.innerText = q.q;
+    if(current>=questions.length){ finishGame(); return; }
+    const q = questions[current];
+    qIndexEl.innerText = `Вопрос ${current+1}/${questions.length}`;
+    questionText.innerText = q.q;
 
-  const order = shuffleArray([0,1,2,3]);
-  q._order = order;
-  q._correctIndex = order.indexOf(q.correct);
+    const order = shuffleArray([0,1,2,3]);
+    q._order = order;
+    q._correctIndex = order.indexOf(q.correct);
 
-  for(let i=0;i<4;i++){
-    const btn = ansButtons[i];
-    btn.classList.remove('correct','wrong');
-    btn.disabled = false;
-    btn.querySelector('.ans-text').innerText = q.a[order[i]];
-  }
+    for(let i=0;i<4;i++){
+        const btn = ansButtons[i];
+        btn.classList.remove('correct','wrong');
+        btn.disabled=false;
+        btn.querySelector('.ans-text').innerText = q.a[order[i]];
+    }
 
-  resetTimer();
-  startTimer();
-  updateProgress();
+    resetTimer();
+    startTimer();
+    updateProgress();
 }
 
 // --------- Таймер ----------
 function resetTimer(){
-  if(timer){ clearInterval(timer); timer=null; }
-  timeLeft = TIME_PER_QUESTION;
-  timerNum.innerText = timeLeft;
-}
-
-function startTimer(){
-  timer = setInterval(()=>{
-    timeLeft--;
+    if(timer){ clearInterval(timer); timer=null; }
+    timeLeft = TIME_PER_QUESTION;
     timerNum.innerText = timeLeft;
-    animateTimerPulse();
-    if(timeLeft <=0){
-      clearInterval(timer); timer=null;
-      revealAnswer(null);
-      setTimeout(()=>{current++; showQuestion();},900);
-    }
-  },1000);
 }
-
+function startTimer(){
+    timer = setInterval(()=>{
+        timeLeft--;
+        timerNum.innerText = timeLeft;
+        animateTimerPulse();
+        if(timeLeft<=0){
+            clearInterval(timer); timer=null;
+            revealAnswer(null);
+            setTimeout(()=>{current++; showQuestion();},900);
+        }
+    },1000);
+}
 function animateTimerPulse(){
-  const el = document.getElementById('timer');
-  el.animate([{transform:'scale(1)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],
-    {duration:420, easing:'ease'});
+    const el = document.getElementById('timer');
+    el.animate([{transform:'scale(1)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],
+        {duration:420, easing:'ease'});
 }
 
 // --------- Выбор ответа ----------
 ansButtons.forEach((btn,i)=>{
-  btn.addEventListener('click',()=>{
-    if(timer){ clearInterval(timer); timer=null; }
-    revealAnswer(i);
-    setTimeout(()=>{current++; showQuestion();},900);
-  });
+    btn.addEventListener('click', ()=>{
+        if(timer){ clearInterval(timer); timer=null; }
+        revealAnswer(i);
+        setTimeout(()=>{current++; showQuestion();},900);
+    });
 });
-
 function revealAnswer(selected){
-  const q = questions[current];
-  const correctDisplayIndex = q._correctIndex;
-  for(let i=0;i<4;i++){
-    const btn = ansButtons[i];
-    btn.disabled=true;
-    if(i===correctDisplayIndex) btn.classList.add('correct');
-    else if(i===selected) btn.classList.add('wrong');
-  }
-  if(selected!==null && selected===correctDisplayIndex) correctCount++;
+    const q = questions[current];
+    const correctDisplayIndex = q._correctIndex;
+    for(let i=0;i<4;i++){
+        const btn = ansButtons[i];
+        btn.disabled=true;
+        if(i===correctDisplayIndex) btn.classList.add('correct');
+        else if(i===selected) btn.classList.add('wrong');
+    }
+    if(selected!==null && selected===correctDisplayIndex) correctCount++;
 }
 
 // --------- Конец игры ----------
 function finishGame(){
-  screenQuiz.classList.add('hidden');
-  screenEnd.classList.remove('hidden');
+    screenQuiz.classList.add('hidden');
+    screenEnd.classList.remove('hidden');
 
-  const win = (correctCount>=WIN_THRESHOLD)?1:0;
-  endTitle.innerText = win ? "Победа!" : "Игра завершена";
-  endScore.innerText = `${correctCount} / ${questions.length}`;
-  modeLabel.innerText = modeRating ? "Рейтинг" : "Без рейтинга";
+    const win = (correctCount>=WIN_THRESHOLD)?1:0;
+    endTitle.innerText = win?"Победа!":"Игра завершена";
+    endScore.innerText = `${correctCount} / ${questions.length}`;
+    modeLabel.innerText = modeRating?"Рейтинг":"Без рейтинга";
 
-  sendResultBtn.onclick = ()=> sendResultToBot(win, correctCount);
-  playAgainBtn.onclick = ()=>{
-    screenEnd.classList.add('hidden');
-    screenStart.classList.remove('hidden');
-  };
+    sendResultBtn.onclick = ()=> sendResultToBot(win, correctCount);
+    playAgainBtn.onclick = ()=>{
+        screenEnd.classList.add('hidden');
+        screenStart.classList.remove('hidden');
+    };
 }
 
 // --------- Отправка результата боту ----------
 function sendResultToBot(win, points){
-  const uid = userId||0;
-  const payload = `result:${uid}:${win}:${points}`;
-  if(tg && tg.sendData){
-    try{ tg.sendData(payload); alert("Результат отправлен боту."); }
-    catch(e){ alert("Ошибка отправки: "+e); }
-  } else {
-    navigator.clipboard?.writeText(payload).then(()=> alert("Результат скопирован, вставь боту"))
-      .catch(()=> prompt("Скопируй результат и отправь боту:", payload));
-  }
+    const uid = userId||0;
+    const payload = `result:${uid}:${win}:${points}`;
+    if(tg && tg.sendData){
+        try{ tg.sendData(payload); alert("Результат отправлен боту."); }
+        catch(e){ alert("Ошибка отправки: "+e); }
+    } else {
+        navigator.clipboard?.writeText(payload).then(()=> alert("Результат скопирован, вставь боту"))
+            .catch(()=> prompt("Скопируй результат и отправь боту:", payload));
+    }
 }
 
 // --------- Утилиты ----------
 function shuffleArray(arr){
-  const a=arr.slice();
-  for(let i=a.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [a[i],a[j]]=[a[j],a[i]];
-  }
-  return a;
+    const a=arr.slice();
+    for(let i=a.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [a[i],a[j]]=[a[j],a[i]];
+    }
+    return a;
 }
-
 function updateProgress(){
-  const pct = Math.round((current/ TOTAL_QUESTIONS)*100);
-  progressBar.style.width = pct+"%";
+    const pct = Math.round((current/TOTAL_QUESTIONS)*100);
+    progressBar.style.width = pct+"%";
 }
-
-// --------- Получение query param ---------
 function getQueryParam(name){
-  const params = new URLSearchParams(window.location.search);
-  return params.get(name);
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name);
 }
