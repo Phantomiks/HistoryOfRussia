@@ -7,41 +7,45 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="container">
+<div class="app">
 
-  <!-- ===== Главный экран ===== -->
-  <div id="screen-start" class="screen">
-    <h1 class="title">Борьба умов</h1>
-    <div class="buttons">
-      <button id="rateBtn" class="button">Играть на рейтинг</button>
-      <button id="casualBtn" class="button">Просто играть</button>
+  <!-- Главный экран -->
+  <div id="screen-start" class="screen hero">
+    <h2>Борьба умов</h2>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="rateBtn">Играть на рейтинг</button>
+      <button class="btn btn-secondary" id="casualBtn">Просто играть</button>
+      <button class="btn btn-ghost" id="inviteBtn">Пригласить друга</button>
     </div>
   </div>
 
-  <!-- ===== Экран викторины ===== -->
+  <!-- Экран викторины -->
   <div id="screen-quiz" class="screen hidden">
-    <div class="quiz-header">
-      <h2 id="qIndex">Вопрос 1/5</h2>
-      <div class="timer-container">
-        <div id="timer" class="timer">15</div>
-        <div id="progressBar" class="progress-bar"></div>
+    <div class="question-card">
+      <div class="meta">
+        <span id="qIndex">Вопрос 1/10</span>
+        <div class="timer"><span id="timerNum">15</span> сек</div>
       </div>
-    </div>
-    <div id="questionText" class="question-text">Вопрос...</div>
-    <div id="answers" class="answers">
-      <button class="ans-btn" id="ans0"><span class="ans-text"></span></button>
-      <button class="ans-btn" id="ans1"><span class="ans-text"></span></button>
-      <button class="ans-btn" id="ans2"><span class="ans-text"></span></button>
-      <button class="ans-btn" id="ans3"><span class="ans-text"></span></button>
+      <h3 id="questionText">Вопрос...</h3>
+      <div class="answers">
+        <div class="answer" id="ans0"><div class="ans-label">A</div><div class="ans-text"></div></div>
+        <div class="answer" id="ans1"><div class="ans-label">B</div><div class="ans-text"></div></div>
+        <div class="answer" id="ans2"><div class="ans-label">C</div><div class="ans-text"></div></div>
+        <div class="answer" id="ans3"><div class="ans-label">D</div><div class="ans-text"></div></div>
+      </div>
+      <div class="progress"><div class="progress__bar" id="progressBar"></div></div>
     </div>
   </div>
 
-  <!-- ===== Экран конца игры ===== -->
-  <div id="screen-end" class="screen hidden">
+  <!-- Экран конца игры -->
+  <div id="screen-end" class="screen endcard hidden">
     <h2 id="endTitle">Победа!</h2>
-    <p id="endScore">5/5</p>
+    <p id="endScore">0 / 0</p>
     <p id="modeLabel">Рейтинг</p>
-    <button id="playAgainBtn" class="button">Играть снова</button>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="playAgainBtn">Сыграть снова</button>
+    </div>
+    <p class="note">Результат сохраняется автоматически</p>
   </div>
 
 </div>
