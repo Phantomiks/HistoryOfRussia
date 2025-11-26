@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TikTok History Feed</title>
-    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Историческая лента</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="tabs">
-    <div class="tab" data-tab="for-you">Рекомендации</div>
-    <div class="tab active" data-tab="following">Обычное</div>
-</div>
+    <div class="feed-container">
 
-<div id="feed" class="feed"></div>
+        <div id="card" class="card">
+            <h2 id="title"></h2>
+            <p id="description"></p>
+        </div>
 
-<script src="app.js"></script>
+        <div class="actions">
+            <div class="btn like">❤</div>
+            <div class="btn save">★</div>
+        </div>
+
+    </div>
+
+<script src="script.js"></script>
 </body>
 </html>
