@@ -1,70 +1,70 @@
-/* ===== Общие стили ===== */
-body {
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg,#f5f7fa,#c3cfe2);
+:root{
+  --bg:#0f1724;
+  --card:#0b1220;
+  --accent:#60a5fa;
+  --accent-2:#7c3aed;
+  --muted:#9aa7bf;
+  --glass: rgba(255,255,255,0.03);
+  --success:#16a34a;
+  --danger:#ef4444;
+  --round:14px;
+  --glass-2: rgba(255,255,255,0.02);
+}
+
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{
   margin:0;
-  padding:0;
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+  background: linear-gradient(180deg,#071025 0%, #071a2a 60%), radial-gradient(600px 300px at 10% 10%, rgba(124,58,237,0.08), transparent 10%);
+  color:#e6eef8;
   display:flex;
-  justify-content:center;
   align-items:center;
-  min-height:100vh;
+  justify-content:center;
 }
 
-.container {
-  width: 95%;
-  max-width: 480px;
-  background: #fff;
-  border-radius: 20px;
-  padding: 25px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+.app{width:100%; max-width:980px; margin:40px}
+
+.hero{display:flex;flex-direction:column;gap:14px;align-items:center;padding:28px;text-align:center;}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+
+.btn{
+  border-radius:12px;padding:12px 18px;font-size:15px;border:0;cursor:pointer;
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.btn:active{transform:translateY(1px)}
+.btn-primary{
+  background: linear-gradient(90deg,var(--accent),var(--accent-2));
+  color:white;box-shadow:0 8px 30px rgba(96,165,250,0.12);
+}
+.btn-secondary{
+  background: transparent;
+  color:var(--accent);
+  border:1px solid rgba(96,165,250,0.12);
+  backdrop-filter: blur(6px);
+}
+.btn-ghost{
+  background:transparent;color:var(--muted);border:1px dashed rgba(255,255,255,0.04)
 }
 
-/* ===== Экраны ===== */
-.screen { text-align:center; padding:20px; }
-.hidden { display:none; }
+.screen{display:block}
+.hidden{display:none}
 
-/* ===== Заголовки ===== */
-.title { font-size: 36px; color: #333; margin-bottom: 30px; font-weight: 700; }
-
-/* ===== Кнопки ===== */
-.button {
-  display:block;
-  background: linear-gradient(135deg,#6a11cb,#2575fc);
-  color:white;
-  font-size:18px;
-  font-weight:600;
-  border:none;
-  border-radius:12px;
-  padding:15px;
-  margin:15px auto;
-  cursor:pointer;
-  width:80%;
-  transition: all 0.2s ease;
+.question-card{padding:22px;display:flex;flex-direction:column;gap:14px;background:var(--card);border-radius:var(--round);box-shadow:0 6px 24px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03);}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+.answer{
+  display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);
+  background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);cursor:pointer;
+  transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
 }
-.button:hover { transform: translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,0.2); }
+.answer:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(2,6,23,0.5)}
+.ans-label{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-weight:700}
+.ans-text{flex:1;text-align:left}
+.answer.correct{border:2px solid var(--success);box-shadow:0 10px 30px rgba(22,163,74,0.08)}
+.answer.wrong{border:2px solid var(--danger);opacity:0.9}
 
-.ans-btn {
-  display:block;
-  margin:12px auto;
-  padding:14px 20px;
-  background: #f0f0f0;
-  color:#333;
-  width:90%;
-  font-size:18px;
-  border-radius:12px;
-  border:none;
-  cursor:pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-.ans-btn:hover { background:#e0e0e0; transform: scale(1.02); }
-.ans-btn.correct { background:#4caf50; color:white; }
-.ans-btn.wrong { background:#f44336; color:white; }
+.progress{height:10px;background:var(--glass-2);border-radius:999px;overflow:hidden;margin-top:12px;}
+.progress__bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .35s ease}
 
-/* ===== Вопрос ===== */
-.question-text { font-size:22px; margin-bottom:15px; color:#333; padding:10px; border-radius:12px; background:#f7f7f7; }
-
-/* ===== Таймер и прогресс ===== */
-.timer-container { display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; }
-.timer { font-size:28px; font-weight:700; color:#333; }
-.progress-bar { flex:1; height:12px; background:#2575fc; border-radius:6px; margin-left:10px; width:0%; transition:width 0.3s ease; }
+.endcard{display:flex;flex-direction:column;gap:12px;align-items:center;padding:28px;background:var(--card);border-radius:var(--round);box-shadow:0 6px 24px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03);}
+.note{color:var(--muted);font-size:13px;margin-top:8px}
