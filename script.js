@@ -9,44 +9,6 @@ const usernameEl = document.getElementById("username");
 const userIdEl = document.getElementById("userId");
 const avatarEl = document.getElementById("avatar");
 
-// Проверяем WebApp
-if(tg){
-    // Telegram WebApp API доступен
-    tg.ready(); // убеждаемся, что API инициализирован
-
-    const info = tg.initDataUnsafe && tg.initDataUnsafe.user;
-    if(info){
-        userId = info.id;
-        username = info.first_name + (info.last_name ? " " + info.last_name : "");
-        // Проверяем photo_url
-        if(info.photo_url && info.photo_url.length>0){
-            avatar = info.photo_url;
-        } else {
-            avatar = "https://via.placeholder.com/80"; // резерв
-        }
-    }
-}
-
-// Отображаем данные
-usernameEl.innerText = username;
-userIdEl.innerText = "ID: " + (userId || "-");
-avatarEl.src = avatar;
-
-// ----------------- Referral -----------------
-const copyLinkBtn = document.getElementById("copyLink");
-
-copyLinkBtn.addEventListener("click", () => {
-    // Ссылка с параметром start для бота
-    const botUsername = "YourBotUsername"; // <-- замените на ваш ник бота
-    const startParam = userId || "guest";  // для гостей
-    const link = `https://t.me/${botUsername}?start=${startParam}`;
-
-    // Копируем
-    navigator.clipboard?.writeText(link)
-        .then(() => alert("Ссылка скопирована!"))
-        .catch(() => prompt("Скопируй ссылку вручную:", link));
-});
-
 
 // ----------------- Stats -----------------
 let level = 1;
