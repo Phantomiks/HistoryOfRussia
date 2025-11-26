@@ -1,14 +1,11 @@
-// script.js — логика игры
-// Поддерживает Telegram WebApp API: Telegram.WebApp.sendData
-// Формат отправки результатов: "result:<user_id>:<win(1|0)>:<points>"
-// В этой реализации points — количество правильных ответов
+// script.js — игра с поддержкой приглашения
+// Работает с Telegram WebApp API для отправки результатов
 
 // --------- Конфигурация ----------
-const TOTAL_QUESTIONS = 10;         // количество вопросов в раунде
-const TIME_PER_QUESTION = 15;       // сек
-const WIN_THRESHOLD = Math.ceil(TOTAL_QUESTIONS * 0.6); // считать "победой" при 60%+ правильных
+const TOTAL_QUESTIONS = 10;
+const TIME_PER_QUESTION = 15;
+const WIN_THRESHOLD = Math.ceil(TOTAL_QUESTIONS * 0.6);
 
-// Пример набора вопросов — замени/добавь свои
 const QUESTIONS = [
   {q: "В каком году произошла Куликовская битва?", a:["1380","1240","1612","1480"], correct:0},
   {q: "Год Крещения Руси?", a:["988","1012","862","1132"], correct:0},
@@ -49,7 +46,7 @@ const modeLabel = document.getElementById('modeLabel');
 const sendResultBtn = document.getElementById('sendResultBtn');
 const playAgainBtn = document.getElementById('playAgainBtn');
 
-let modeRating = false;   // true — режим рейтинга
+let modeRating = false;
 let questions = [];
 let current = 0;
 let timer = null;
@@ -57,35 +54,60 @@ let timeLeft = TIME_PER_QUESTION;
 let correctCount = 0;
 let userId = null;
 
-// Инициализация Telegram WebApp (если открыт внутри Telegram)
+// --------- Telegram WebApp ----------
 let tg = window.Telegram ? window.Telegram.WebApp : null;
 if (tg) {
-  // получаем id пользователя из initDataUnsafe (не валидируем здесь — для простоты)
   try {
     const info = tg.initDataUnsafe && tg.initDataUnsafe.user;
     if (info && info.id) userId = info.id;
-    // close interface adjustments
     tg.expand();
-  } catch(e){
-    console.warn("tg init error", e);
-  }
+  } catch(e){ console.warn("tg init error", e); }
 }
 
-// ----------------- Логика выбора режима -----------------
-inviteBtn.addEventListener('click', () => {
-  // копируем ссылку на игру (текущая страница)
-  const url = window.location.href;
-  navigator.clipboard?.writeText(url).then(()=>{
-    alert("Ссылка на игру скопирована. Отправь её другу!");
-  }).catch(()=>{ prompt("Скопируй ссылку вручную:", url) });
-});
+// --------- WebSocket для онлайн ----------
+let ws = null;
+let playerId = Math.floor(Math.random()*100000);
+let opponentId = null;
+let inviteId = getQueryParam("invite");
 
-rateBtn.addEventListener('click', ()=> startGame(true));
-casualBtn.addEventListener('click', ()=> startGame(false));
+// Инициализация WS
+function initWebSocket(isInvite){
+  ws = new WebSocket("wss://ВАШ_ДОМЕН/ws"); // серверный WS
+  ws.onopen = () => {
+    if(isInvite){
+      ws.send(JSON.stringify({type:"join_invite", playerId, inviteId}));
+    } else {
+      ws.send(JSON.stringify({type:"join", playerId}));
+    }
+  };
+  ws.onmessage = (msg) => {
+    const data = JSON.parse(msg.data);
+    if(data.type === "start"){
+      opponentId = data.opponentId;
+      startGame(modeRating); // запускаем игру после подключения обоих
+    }
+  };
+}
 
+// --------- Мод выбора режима ----------
+if(inviteId){
+  // игрок пришёл по ссылке → автоматически WS join_invite
+  initWebSocket(true);
+} else {
+  inviteBtn.addEventListener('click', ()=>{
+    const url = window.location.href + "?invite=" + playerId;
+    navigator.clipboard?.writeText(url).then(()=> alert("Ссылка скопирована! Отправь другу."))
+      .catch(()=> prompt("Скопируй ссылку вручную:", url));
+    initWebSocket(false);
+  });
+
+  rateBtn.addEventListener('click', ()=> startGame(true));
+  casualBtn.addEventListener('click', ()=> startGame(false));
+}
+
+// --------- Старт игры ----------
 function startGame(isRating){
   modeRating = !!isRating;
-  // формируем вопросы случайно из набора
   questions = shuffleArray(QUESTIONS).slice(0, TOTAL_QUESTIONS);
   current = 0;
   correctCount = 0;
@@ -100,9 +122,9 @@ function startGame(isRating){
   showQuestion();
 }
 
-// ----------------- Показ вопроса -----------------
+// --------- Показ вопроса ----------
 function showQuestion(){
-  if (current >= questions.length) {
+  if(current >= questions.length){
     finishGame();
     return;
   }
@@ -110,138 +132,116 @@ function showQuestion(){
   qIndexEl.innerText = `Вопрос ${current+1}/${questions.length}`;
   questionText.innerText = q.q;
 
-  // shuffle answers order but keep track
-  const indices = [0,1,2,3];
-  const order = shuffleArray(indices);
+  const order = shuffleArray([0,1,2,3]);
   q._order = order;
   q._correctIndex = order.indexOf(q.correct);
 
-  for (let i=0;i<4;i++){
+  for(let i=0;i<4;i++){
     const btn = ansButtons[i];
     btn.classList.remove('correct','wrong');
     btn.disabled = false;
     btn.querySelector('.ans-text').innerText = q.a[order[i]];
   }
 
-  // timer
   resetTimer();
   startTimer();
   updateProgress();
 }
 
+// --------- Таймер ----------
 function resetTimer(){
-  if (timer) { clearInterval(timer); timer = null; }
+  if(timer){ clearInterval(timer); timer=null; }
   timeLeft = TIME_PER_QUESTION;
   timerNum.innerText = timeLeft;
 }
 
 function startTimer(){
   timer = setInterval(()=>{
-    timeLeft -= 1;
+    timeLeft--;
     timerNum.innerText = timeLeft;
     animateTimerPulse();
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      timer = null;
-      // считaем как неправильный ответ — подсвечиваем правильный
+    if(timeLeft <=0){
+      clearInterval(timer); timer=null;
       revealAnswer(null);
-      // далее переход на след. вопрос через паузу
-      setTimeout(()=> { current++; showQuestion(); }, 900);
+      setTimeout(()=>{current++; showQuestion();},900);
     }
-  }, 1000);
+  },1000);
 }
 
 function animateTimerPulse(){
   const el = document.getElementById('timer');
-  el.animate([{transform:'scale(1)'},{transform:'scale(1.06)'},{transform:'scale(1)'}], {duration:420, easing:'ease'});
+  el.animate([{transform:'scale(1)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],
+    {duration:420, easing:'ease'});
 }
 
-// ----------------- Выбор ответа -----------------
-ansButtons.forEach((btn, i) => {
-  btn.addEventListener('click', ()=> {
-    if (timer) { clearInterval(timer); timer = null; }
+// --------- Выбор ответа ----------
+ansButtons.forEach((btn,i)=>{
+  btn.addEventListener('click',()=>{
+    if(timer){ clearInterval(timer); timer=null; }
     revealAnswer(i);
-    // переход дальше
-    setTimeout(()=> { current++; showQuestion(); }, 900);
+    setTimeout(()=>{current++; showQuestion();},900);
   });
 });
 
 function revealAnswer(selected){
   const q = questions[current];
-  // индекс правильного варианта в отображаемых кнопках:
   const correctDisplayIndex = q._correctIndex;
-  // подсветка
-  for (let i=0;i<4;i++){
+  for(let i=0;i<4;i++){
     const btn = ansButtons[i];
-    btn.disabled = true;
-    if (i === correctDisplayIndex) {
-      btn.classList.add('correct');
-    } else if (i === selected) {
-      btn.classList.add('wrong');
-    }
+    btn.disabled=true;
+    if(i===correctDisplayIndex) btn.classList.add('correct');
+    else if(i===selected) btn.classList.add('wrong');
   }
-  if (selected !== null && selected === correctDisplayIndex){
-    correctCount++;
-    // можно показать +1 анимацию
-  }
+  if(selected!==null && selected===correctDisplayIndex) correctCount++;
 }
 
-// ----------------- Конец игры -----------------
+// --------- Конец игры ----------
 function finishGame(){
   screenQuiz.classList.add('hidden');
   screenEnd.classList.remove('hidden');
 
-  const win = (correctCount >= WIN_THRESHOLD) ? 1 : 0;
+  const win = (correctCount>=WIN_THRESHOLD)?1:0;
   endTitle.innerText = win ? "Победа!" : "Игра завершена";
   endScore.innerText = `${correctCount} / ${questions.length}`;
   modeLabel.innerText = modeRating ? "Рейтинг" : "Без рейтинга";
 
-  // на кнопку отправки результата — формируем строку
-  sendResultBtn.onclick = () => {
-    sendResultToBot(win, correctCount);
-  };
-  playAgainBtn.onclick = () => {
+  sendResultBtn.onclick = ()=> sendResultToBot(win, correctCount);
+  playAgainBtn.onclick = ()=>{
     screenEnd.classList.add('hidden');
     screenStart.classList.remove('hidden');
   };
 }
 
-// ----------------- Отправка результата боту -----------------
+// --------- Отправка результата боту ----------
 function sendResultToBot(win, points){
-  // Формат: "result:<user_id>:<win(1|0)>:<points>"
-  // Если userId есть в Telegram.WebApp.initDataUnsafe — берем его, иначе отправляем с 0 (бот всё равно сможет сопоставить).
-  const uid = userId || 0;
+  const uid = userId||0;
   const payload = `result:${uid}:${win}:${points}`;
-
-  if (tg && tg.sendData){
-    try{
-      tg.sendData(payload);
-      alert("Результат отправлен боту.");
-    } catch(e){
-      alert("Ошибка отправки результата: " + e);
-    }
+  if(tg && tg.sendData){
+    try{ tg.sendData(payload); alert("Результат отправлен боту."); }
+    catch(e){ alert("Ошибка отправки: "+e); }
   } else {
-    // Если Telegram API не доступен (например, открыли в браузере),
-    // мы показываем строку для копирования — пользователь может вставить в чат боту.
-    navigator.clipboard?.writeText(payload).then(()=>{
-      alert("Твой результат скопирован в буфер. Вставь его в чат с ботом.");
-    }).catch(()=> {
-      prompt("Скопируй результат и отправь боту:", payload);
-    });
+    navigator.clipboard?.writeText(payload).then(()=> alert("Результат скопирован, вставь боту"))
+      .catch(()=> prompt("Скопируй результат и отправь боту:", payload));
   }
 }
 
-// ----------------- Утилиты -----------------
+// --------- Утилиты ----------
 function shuffleArray(arr){
-  const a = arr.slice();
-  for (let i=a.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [a[i],a[j]] = [a[j],a[i]];
+  const a=arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
   }
   return a;
 }
 
 function updateProgress(){
-  const pct = Math.round((current / TOTAL_QUESTIONS) * 100);
-  progressBar.style.width = pct + "%";
+  const pct = Math.round((current/ TOTAL_QUESTIONS)*100);
+  progressBar.style.width = pct+"%";
+}
+
+// --------- Получение query param ---------
+function getQueryParam(name){
+  const params = new URLSearchParams(window.location.search);
+  return params.get(name);
 }
