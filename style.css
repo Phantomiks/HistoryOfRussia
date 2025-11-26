@@ -1,31 +1,30 @@
 :root{
   --bg:#0f1724;
-  --card: rgba(11,18,32,0.8);
+  --card-bg: rgba(11,18,32,0.8);
   --accent:#60a5fa;
   --accent-2:#7c3aed;
   --muted:#9aa7bf;
+  --success:#16a34a;
+  --danger:#ef4444;
   --round:24px;
+  --shadow:0 10px 40px rgba(0,0,0,0.6);
 }
 
 *{box-sizing:border-box;}
-html,body,#root{height:100%; margin:0; font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif; overflow:hidden;}
-body{background: linear-gradient(180deg,#071025 0%, #071a2a 100%); display:flex; justify-content:center; align-items:center; color:#e6eef8;}
+html,body{height:100%; margin:0; font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif; background:#071025; overflow:hidden; display:flex; justify-content:center; align-items:center; color:#e6eef8;}
 
-.story-container{
-  width:100%;
-  height:100%;
-  position:relative;
-  overflow:hidden;
-}
+.app{width:100%; height:100%; position:relative;}
+.story-container{width:100%; height:100%; position:relative; overflow:hidden;}
 
 .story-card{
   position:absolute;
   width:90%;
-  height:85%;
+  max-width:480px;
+  height:80%;
   left:50%;
   top:50%;
   transform:translate(-50%, -50%);
-  background: var(--card);
+  background: var(--card-bg);
   backdrop-filter: blur(12px);
   border-radius:var(--round);
   padding:28px;
@@ -34,12 +33,13 @@ body{background: linear-gradient(180deg,#071025 0%, #071a2a 100%); display:flex;
   justify-content:center;
   align-items:center;
   gap:16px;
-  box-shadow:0 10px 40px rgba(0,0,0,0.6);
+  box-shadow: var(--shadow);
   transition: transform 0.3s ease, opacity 0.3s ease;
+  overflow:hidden;
 }
 
 .story-date{
-  font-size:24px;
+  font-size:28px;
   font-weight:700;
 }
 
@@ -51,7 +51,7 @@ body{background: linear-gradient(180deg,#071025 0%, #071a2a 100%); display:flex;
 
 .story-actions{
   position:absolute;
-  right:20px;
+  right:16px;
   top:50%;
   transform:translateY(-50%);
   display:flex;
@@ -64,13 +64,22 @@ body{background: linear-gradient(180deg,#071025 0%, #071a2a 100%); display:flex;
   border:none;
   border-radius:16px;
   padding:14px;
-  font-size:22px;
+  font-size:24px;
   cursor:pointer;
   color:white;
   display:flex;
   align-items:center;
   justify-content:center;
-  transition: transform .2s ease;
+  transition: transform 0.2s ease, background 0.2s ease;
 }
-.action-btn:active{transform:scale(0.95);}
-.action-btn span{margin-left:6px; font-size:16px;}
+.action-btn:hover{background: rgba(255,255,255,0.12);}
+.action-btn:active{transform:scale(0.9);}
+
+.story-card[data-liked="true"] .like{color: var(--accent);}
+.story-card[data-bookmarked="true"] .bookmark{color: var(--accent-2);}
+
+@media (max-width:600px){
+  .story-card{width:95%; height:85%;}
+  .story-date{font-size:24px;}
+  .story-desc{font-size:16px;}
+}
