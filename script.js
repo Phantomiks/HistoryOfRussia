@@ -1,128 +1,81 @@
-// ----------------- Telegram WebApp -----------------
-let tg = window.Telegram ? window.Telegram.WebApp : null;
+const TOTAL_QUESTIONS = 5;
+const TIME_PER_QUESTION = 15;
 
-let userId = null;
-let username = "Гость";
-let avatar = "https://via.placeholder.com/80";
-
-const usernameEl = document.getElementById("username");
-const userIdEl = document.getElementById("userId");
-const avatarEl = document.getElementById("avatar");
-
-
-// ----------------- Stats -----------------
-let level = 1;
-let points = 0;
-let tasksDone = 0;
-let streak = 0;
-let history = [];
-
-const levelEl = document.getElementById("level");
-const pointsEl = document.getElementById("points");
-const tasksEl = document.getElementById("tasksDone");
-const streakEl = document.getElementById("streakCount");
-const levelProgress = document.getElementById("levelProgress");
-const historyList = document.getElementById("historyList");
-
-// ----------------- Achievements -----------------
-const achievements = [
-  {id:1,name:"Новичок",desc:"Зарегистрировался в боте",earned:false},
-  {id:2,name:"Победитель",desc:"Выиграл первую викторину",earned:false},
-  {id:3,name:"Историк",desc:"Прочитал 10 карточек",earned:false},
-  {id:4,name:"Реферал",desc:"Пригласил друга",earned:false},
+const QUESTIONS = [
+  {q:"1380 — Куликовская битва", a:["1380","1240","1612","1480"], correct:0},
+  {q:"1703 — Основание Санкт-Петербурга", a:["1700","1703","1712","1720"], correct:1},
+  {q:"1945 — Победа в ВОВ", a:["1941","1943","1945","1944"], correct:2},
+  {q:"Кто создал первый флот?", a:["Петр I","Иван IV","Алексей","Екатерина II"], correct:0},
+  {q:"Год Крещения Руси", a:["988","1012","862","1132"], correct:0}
 ];
-const achievementsGrid = document.getElementById("achievementsGrid");
-const modal = document.getElementById("modal");
-const modalTitle = document.getElementById("modalTitle");
-const modalDesc = document.getElementById("modalDesc");
-const modalClose = document.getElementById("modalClose");
 
-// ----------------- Telegram login -----------------
-if(tg){
-    const info = tg.initDataUnsafe && tg.initDataUnsafe.user;
-    if(info){
-        userId = info.id;
-        username = info.first_name + (info.last_name? " "+info.last_name:"");
-        avatar = info.photo_url || avatar;
-    }
-}
-usernameEl.innerText = username;
-userIdEl.innerText = "ID: "+(userId||"-");
-avatarEl.src = avatar;
+let current = 0;
+let correctCount = 0;
+let timer = null;
+let timeLeft = TIME_PER_QUESTION;
 
-// ----------------- Render Achievements -----------------
-function renderAchievements(){
-    achievementsGrid.innerHTML="";
-    achievements.forEach(a=>{
-        const el = document.createElement("div");
-        el.className="achievement";
-        el.innerText = a.earned ? "🏆" : "🏅";
-        el.title = a.name;
-        el.addEventListener("click", ()=>{
-            modalTitle.innerText = a.name;
-            modalDesc.innerText = a.desc;
-            modal.classList.remove("hidden");
-        });
-        achievementsGrid.appendChild(el);
-    });
-}
-renderAchievements();
+// Элементы
+const screenStart = document.getElementById('screen-start');
+const screenQuiz  = document.getElementById('screen-quiz');
+const screenCab   = document.getElementById('screen-cabinet');
+const questionText = document.getElementById('questionText');
+const qIndexEl = document.getElementById('qIndex');
+const timerEl = document.getElementById('timer');
+const progressBar = document.getElementById('progressBar');
+const ansButtons = [0,1,2,3].map(i=>document.getElementById('ans'+i));
 
-// ----------------- Modal -----------------
-modalClose.addEventListener("click",()=> modal.classList.add("hidden"));
-modal.addEventListener("click", e=> {if(e.target===modal) modal.classList.add("hidden");});
+const soloBtn = document.getElementById('soloBtn');
+const duelBtn = document.getElementById('duelBtn');
+const cabinetBtn = document.getElementById('cabinetBtn');
+const backBtn = document.getElementById('backBtn');
 
-// ----------------- Referral -----------------
-const copyLinkBtn = document.getElementById("copyLink");
-copyLinkBtn.addEventListener("click", ()=>{
-    const link = "https://t.me/your_bot?start="+(userId||"guest");
-    navigator.clipboard?.writeText(link)
-      .then(()=> alert("Ссылка скопирована!"))
-      .catch(()=> prompt("Скопируй ссылку:", link));
-});
+soloBtn.onclick = ()=>startGame();
+cabinetBtn.onclick = ()=>{screenStart.classList.add('hidden'); screenCab.classList.remove('hidden');};
+backBtn.onclick = ()=>{screenCab.classList.add('hidden'); screenStart.classList.remove('hidden');};
 
-// ----------------- Update Stats -----------------
-function updateStats(){
-    levelEl.innerText = level;
-    pointsEl.innerText = points;
-    tasksEl.innerText = tasksDone;
-    streakEl.innerText = streak;
-    levelProgress.style.width = (points%100)+"%";
-    renderAchievements();
-    renderHistory();
+function startGame(){
+  screenStart.classList.add('hidden');
+  screenQuiz.classList.remove('hidden');
+  current=0; correctCount=0;
+  loadQuestion();
 }
 
-// ----------------- History -----------------
-function addHistory(text){
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-    history.unshift(timeStr+" — "+text);
-    if(history.length>20) history.pop();
-    renderHistory();
+function loadQuestion(){
+  if(current>=QUESTIONS.length){finishGame(); return;}
+  const q = QUESTIONS[current];
+  qIndexEl.innerText = `Вопрос ${current+1}/${QUESTIONS.length}`;
+  questionText.innerText = q.q;
+  ansButtons.forEach((btn,i)=>{
+    btn.classList.remove('correct','wrong');
+    btn.disabled=false;
+    btn.querySelector('.ans-text').innerText = q.a[i];
+    btn.onclick = ()=>selectAnswer(i);
+  });
+  timeLeft = TIME_PER_QUESTION;
+  timerEl.innerText = timeLeft;
+  if(timer) clearInterval(timer);
+  timer = setInterval(()=>{
+    timeLeft--;
+    timerEl.innerText = timeLeft;
+    if(timeLeft<=0){ clearInterval(timer); selectAnswer(-1);}
+  },1000);
 }
 
-function renderHistory(){
-    historyList.innerHTML="";
-    history.forEach(h=>{
-        const li = document.createElement("li");
-        li.innerText = h;
-        historyList.appendChild(li);
-    });
+function selectAnswer(i){
+  clearInterval(timer);
+  const q = QUESTIONS[current];
+  ansButtons.forEach((btn,idx)=>{
+    btn.disabled=true;
+    if(idx===q.correct) btn.classList.add('correct');
+    else if(idx===i) btn.classList.add('wrong');
+  });
+  if(i===q.correct) correctCount++;
+  current++;
+  setTimeout(loadQuestion,800);
 }
 
-// ----------------- Example actions -----------------
-function completeTask(name, pointsEarned){
-    tasksDone++;
-    points+=pointsEarned;
-    streak++;
-    addHistory(`Выполнил: ${name} (+${pointsEarned} очков)`);
-
-    // Проверка ачивок
-    if(tasksDone>=1) achievements[1].earned=true;
-    if(tasksDone>=10) achievements[2].earned=true;
-
-    updateStats();
+function finishGame(){
+  screenQuiz.classList.add('hidden');
+  screenCab.classList.remove('hidden');
+  document.getElementById('userPoints').innerText = correctCount;
 }
-
-// Имитируем первый вход
-completeTask("Вход в бот", 10);
