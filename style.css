@@ -1,132 +1,91 @@
-:root {
-    --bg: #0e1624;
-    --glass: rgba(255,255,255,0.08);
-    --border: rgba(255,255,255,0.12);
-    --text: #e9eff8;
-    --muted: #9caac3;
-    --accent: #60a5fa;
-    --radius: 22px;
+/* style.css — современный стеклянный UI, полноэкранная карточка */
+:root{
+  --bg-1: #071125;
+  --bg-2: #071923;
+  --glass: rgba(255,255,255,0.06);
+  --glass-2: rgba(255,255,255,0.03);
+  --muted: #9fb0c9;
+  --accent: #60a5fa;
+  --accent-2: #7c3aed;
+  --radius: 18px;
+  --shadow: 0 18px 50px rgba(2,6,23,0.6);
+  --max-width: 540px;
 }
 
-* { box-sizing: border-box; }
-body {
-    margin: 0;
-    background: radial-gradient(circle at 20% 20%, #1a2640, #0b111d 70%);
-    color: var(--text);
-    font-family: Inter, sans-serif;
-    overflow: hidden;
-    height: 100vh;
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif;background:
+  radial-gradient(700px 400px at 10% 10%, rgba(124,58,237,0.06), transparent 10%),
+  linear-gradient(180deg,var(--bg-1),var(--bg-2)); color:#eaf4ff; -webkit-font-smoothing:antialiased;}
+
+#app{min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+
+/* Topbar */
+.topbar{width:100%;max-width:1000px;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:18px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 8px 24px rgba(12,16,24,0.45)}
+.title{font-weight:700;font-size:18px}
+.subtitle{font-size:12px;color:var(--muted)}
+
+.tabs{display:flex;gap:8px}
+.tab{background:transparent;border:none;color:var(--muted);padding:8px 12px;border-radius:10px;font-weight:600;cursor:pointer;transition:all .18s}
+.tab.active{color:white;background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 8px 20px rgba(96,165,250,0.08)}
+
+/* Viewport */
+.feed-root{width:100%;max-width:var(--max-width);height:calc(100vh - 170px);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:12px}
+.viewport{width:100%;height:100%;position:relative;touch-action:none}
+
+/* Card (centered, glass) */
+.card{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:88%;
+  max-width:520px;
+  height:72%;
+  border-radius:var(--radius);
+  padding:26px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border:1px solid rgba(255,255,255,0.04);
+  backdrop-filter: blur(14px) saturate(120%);
+  box-shadow:var(--shadow);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  opacity:0;
+  transition: transform .35s cubic-bezier(.22,.61,.36,1), opacity .28s ease;
 }
 
-/* Верхние вкладки как в TikTok */
-.tabs {
-    position: absolute;
-    top: 14px;
-    width: 100%;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    z-index: 20;
-    gap: 22px;
-}
-.tab {
-    padding: 8px 12px;
-    cursor: pointer;
-    font-size: 16px;
-    color: var(--muted);
-    border-bottom: 2px solid transparent;
-}
-.tab.active {
-    color: white;
-    border-bottom: 2px solid var(--accent);
-}
+/* visible state */
+.card.visible{opacity:1;transform:translate(-50%,-50%) scale(1)}
 
-/* Лента */
-.feed {
-    height: 100vh;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-}
+/* title / text */
+.card-head{display:flex;flex-direction:column;gap:6px}
+.card-title{font-size:24px;font-weight:800}
+.card-sub{color:var(--muted);font-size:14px}
+.card-body{font-size:16px;color:var(--muted);line-height:1.5;flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:6px 10px}
 
-/* Карточка */
-.card {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 82%;
-    max-width: 420px;
-    height: 65vh;
-    transform: translate(-50%, -50%);
-    border-radius: var(--radius);
-    padding: 24px;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--border);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.45);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    opacity: 0;
-    transition: opacity .3s ease, transform .4s ease-out;
-}
+/* bottom actions — centered row under card */
+.actions-row{display:flex;gap:20px;justify-content:center;align-items:center;margin-top:12px}
+.action{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:none;color:white;padding:12px 18px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 10px 30px rgba(96,165,250,0.08);transition:transform .12s,opacity .12s}
+.action.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);box-shadow:none}
+.action:active{transform:translateY(2px)}
 
-/* Активная карточка */
-.card.active {
-    opacity: 1;
-}
+/* small counters */
+.counter{font-weight:700;margin-left:8px;color:#fff}
 
-/* Заголовок */
-.card-title {
-    font-size: 24px;
-    font-weight: 700;
-}
+/* Swipe animation helper classes */
+.swipe-up{transform:translate(-50%,-150%) scale(.98);opacity:0}
+.swipe-down{transform:translate(-50%,150%) scale(.98);opacity:0}
+.swipe-left{transform:translate(-150%,-50%) scale(.98);opacity:0}
+.swipe-right{transform:translate(150%,-50%) scale(.98);opacity:0}
 
-/* Описание */
-.card-text {
-    font-size: 16px;
-    color: var(--muted);
-    line-height: 1.45;
-}
+/* footer */
+.footer-note{color:var(--muted);font-size:12px;margin:14px 0 26px}
 
-/* Блок лайков/закладка */
-.actions {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    margin-top: 20px;
-}
-.actions button {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid var(--border);
-    padding: 14px 18px;
-    border-radius: 16px;
-    font-size: 20px;
-    color: white;
-    cursor: pointer;
-    transition: 0.15s;
-}
-.actions button:hover {
-    background: rgba(255,255,255,0.12);
-    transform: translateY(-2px);
-}
-
-/* Анимации свайпа */
-.swipe-up {
-    transform: translate(-50%, -120%);
-    opacity: 0;
-}
-.swipe-down {
-    transform: translate(-50%, 120%);
-    opacity: 0;
-}
-
-/* Переключение вкладок свайпом вправо-влево */
-.swipe-left {
-    transform: translate(-150%, -50%);
-    opacity: 0;
-}
-.swipe-right {
-    transform: translate(50%, -50%);
-    opacity: 0;
+/* responsive */
+@media(max-width:640px){
+  .card{width:92%;height:78%;padding:20px;border-radius:16px}
+  .card-title{font-size:20px}
+  .card-body{font-size:15px}
 }
