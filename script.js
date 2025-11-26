@@ -7,48 +7,77 @@ const STORIES = [
   {date:"1 сентября 2023", desc:"Начало нового учебного года в российских школах."}
 ];
 
+const container = document.getElementById("storyContainer");
 let currentIndex = 0;
-let likeCounts = Array(STORIES.length).fill(0);
-let bookmarked = Array(STORIES.length).fill(false);
 
-const storyDate = document.getElementById("storyDate");
-const storyDesc = document.getElementById("storyDesc");
-const likeBtn = document.getElementById("likeBtn");
-const likeCount = document.getElementById("likeCount");
-const bookmarkBtn = document.getElementById("bookmarkBtn");
+// Создание карточек
+STORIES.forEach((story, i)=>{
+  const card = document.createElement("div");
+  card.className = "story-card";
+  card.style.zIndex = STORIES.length - i;
 
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
+  card.innerHTML = `
+    <h2 class="story-date">${story.date}</h2>
+    <p class="story-desc">${story.desc}</p>
+    <div class="story-actions">
+      <button class="action-btn like">❤️</button>
+      <button class="action-btn bookmark">🔖</button>
+    </div>
+  `;
 
-function showStory(index){
-  const story = STORIES[index];
-  storyDate.innerText = story.date;
-  storyDesc.innerText = story.desc;
-  likeCount.innerText = likeCounts[index];
-  bookmarkBtn.innerText = bookmarked[index] ? "🔖" : "📑";
+  container.appendChild(card);
+});
+
+// Свайп и анимация
+let startY = 0;
+let isDragging = false;
+
+function handleTouchStart(e){
+  startY = e.touches[0].clientY;
+  isDragging = true;
+}
+function handleTouchMove(e){
+  if(!isDragging) return;
+  const moveY = e.touches[0].clientY - startY;
+  const card = container.children[currentIndex];
+  card.style.transform = `translate(-50%, calc(-50% + ${moveY}px))`;
+  card.style.opacity = `${1 - Math.abs(moveY)/600}`;
+}
+function handleTouchEnd(e){
+  if(!isDragging) return;
+  isDragging = false;
+  const endY = e.changedTouches[0].clientY;
+  const diff = endY - startY;
+  const card = container.children[currentIndex];
+
+  if(diff < -80 && currentIndex < STORIES.length-1){
+    // свайп вверх
+    card.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+    card.style.transform = "translate(-50%, -150%)";
+    card.style.opacity = "0";
+    currentIndex++;
+    setTimeout(()=>{resetCard(card)}, 300);
+  } else if(diff > 80 && currentIndex > 0){
+    // свайп вниз
+    card.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+    card.style.transform = "translate(-50%, 150%)";
+    card.style.opacity = "0";
+    currentIndex--;
+    setTimeout(()=>{resetCard(card)}, 300);
+  } else {
+    // возвращаем на место
+    card.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+    card.style.transform = "translate(-50%, -50%)";
+    card.style.opacity = "1";
+  }
 }
 
-// Лайк
-likeBtn.addEventListener("click", ()=>{
-  likeCounts[currentIndex]++;
-  showStory(currentIndex);
-});
+function resetCard(card){
+  card.style.transition = "none";
+  card.style.transform = "translate(-50%, -50%)";
+  card.style.opacity = "1";
+}
 
-// Закладка
-bookmarkBtn.addEventListener("click", ()=>{
-  bookmarked[currentIndex] = !bookmarked[currentIndex];
-  showStory(currentIndex);
-});
-
-// Навигация
-nextBtn.addEventListener("click", ()=>{
-  if(currentIndex < STORIES.length-1) currentIndex++;
-  showStory(currentIndex);
-});
-prevBtn.addEventListener("click", ()=>{
-  if(currentIndex > 0) currentIndex--;
-  showStory(currentIndex);
-});
-
-// Инициализация
-showStory(currentIndex);
+container.addEventListener("touchstart", handleTouchStart);
+container.addEventListener("touchmove", handleTouchMove);
+container.addEventListener("touchend", handleTouchEnd);
