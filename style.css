@@ -1,47 +1,43 @@
-:root{
-  --bg:#0f1724;
-  --card:#0b1220;
-  --accent:#60a5fa;
-  --accent-2:#7c3aed;
-  --muted:#9aa7bf;
-  --glass: rgba(255,255,255,0.03);
-  --success:#16a34a;
-  --danger:#ef4444;
-  --round:14px;
+body {
+  margin: 0;
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+  background: linear-gradient(180deg,#071025 0%, #071a2a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+  color: #e6eef8;
 }
 
-*{box-sizing:border-box}
-html,body,#root{height:100%}
-body{
-  margin:0;
-  font-family: Inter, sans-serif;
-  background: linear-gradient(180deg,#071025 0%, #071a2a 60%);
-  color:#e6eef8;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.hidden {
+  display: none;
 }
 
-.app{width:100%;max-width:980px;margin:40px}
-.screen{display:block}
-.hidden{display:none}
+#game-container {
+  width: 100%;
+  max-width: 600px;
+  height: 90vh;
+}
 
-/* Hero */
-.hero{text-align:center;padding:30px}
-.btn-row{display:flex;gap:12px;justify-content:center;margin-top:20px}
-.btn{border-radius:12px;padding:12px 18px;font-size:15px;border:0;cursor:pointer;transition:0.12s}
-.btn-primary{background: linear-gradient(90deg,var(--accent),var(--accent-2)); color:white;}
-.btn-secondary{background:transparent;color:var(--accent);border:1px solid rgba(96,165,250,0.12);}
-.btn-ghost{background:transparent;color:var(--muted);border:1px dashed rgba(255,255,255,0.04);}
-
-/* Quiz */
-.question-card{padding:20px;background:var(--card);border-radius:var(--round);margin-top:20px}
-.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-.answer{padding:12px;background:rgba(255,255,255,0.05);border-radius:10px;cursor:pointer;display:flex;gap:8px;align-items:center;}
-.answer.correct{border:2px solid var(--success)}
-.answer.wrong{border:2px solid var(--danger)}
-.progress{height:10px;background:rgba(255,255,255,0.02);border-radius:999px;overflow:hidden;margin-top:10px}
-.progress__bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:0.35s}
-
-/* Cabinet */
-.endcard{background:var(--card);padding:20px;border-radius:var(--round);text-align:center;}
+#endScreen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  text-align: center;
+  background: rgba(255,255,255,0.03);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+button {
+  margin: 8px;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(90deg,#60a5fa,#7c3aed);
+  color: white;
+}
