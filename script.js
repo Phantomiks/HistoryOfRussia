@@ -1,81 +1,95 @@
-const TOTAL_QUESTIONS = 5;
-const TIME_PER_QUESTION = 15;
+// Настройка Telegram WebApp
+let tg = window.Telegram ? window.Telegram.WebApp : null;
+let userId = tg?.initDataUnsafe?.user?.id || 0;
 
+// Вопросы
 const QUESTIONS = [
-  {q:"1380 — Куликовская битва", a:["1380","1240","1612","1480"], correct:0},
-  {q:"1703 — Основание Санкт-Петербурга", a:["1700","1703","1712","1720"], correct:1},
-  {q:"1945 — Победа в ВОВ", a:["1941","1943","1945","1944"], correct:2},
-  {q:"Кто создал первый флот?", a:["Петр I","Иван IV","Алексей","Екатерина II"], correct:0},
-  {q:"Год Крещения Руси", a:["988","1012","862","1132"], correct:0}
+  {q: "В каком году произошла Куликовская битва?", a:["1380","1240","1612","1480"], correct:0},
+  {q: "Год Крещения Руси?", a:["988","1012","862","1132"], correct:0},
+  {q: "Кто был первым российским императором?", a:["Петр I","Иван IV","Алексей","Екатерина II"], correct:0},
+  {q: "Столица Золотой Орды?", a:["Сарай","Киев","Новгород","Владимир"], correct:0}
 ];
 
-let current = 0;
+let currentIndex = 0;
 let correctCount = 0;
-let timer = null;
-let timeLeft = TIME_PER_QUESTION;
 
-// Элементы
-const screenStart = document.getElementById('screen-start');
-const screenQuiz  = document.getElementById('screen-quiz');
-const screenCab   = document.getElementById('screen-cabinet');
-const questionText = document.getElementById('questionText');
-const qIndexEl = document.getElementById('qIndex');
-const timerEl = document.getElementById('timer');
-const progressBar = document.getElementById('progressBar');
-const ansButtons = [0,1,2,3].map(i=>document.getElementById('ans'+i));
+// Phaser config
+const config = {
+  type: Phaser.AUTO,
+  parent: 'game-container',
+  width: 600,
+  height: 800,
+  backgroundColor: 0x071025,
+  scene: {
+    preload,
+    create,
+    update
+  }
+};
 
-const soloBtn = document.getElementById('soloBtn');
-const duelBtn = document.getElementById('duelBtn');
-const cabinetBtn = document.getElementById('cabinetBtn');
-const backBtn = document.getElementById('backBtn');
+const game = new Phaser.Game(config);
 
-soloBtn.onclick = ()=>startGame();
-cabinetBtn.onclick = ()=>{screenStart.classList.add('hidden'); screenCab.classList.remove('hidden');};
-backBtn.onclick = ()=>{screenCab.classList.add('hidden'); screenStart.classList.remove('hidden');};
-
-function startGame(){
-  screenStart.classList.add('hidden');
-  screenQuiz.classList.remove('hidden');
-  current=0; correctCount=0;
-  loadQuestion();
+function preload() {
+  this.load.html('questionform', ''); // можно вставлять HTML через Phaser
 }
 
-function loadQuestion(){
-  if(current>=QUESTIONS.length){finishGame(); return;}
-  const q = QUESTIONS[current];
-  qIndexEl.innerText = `Вопрос ${current+1}/${QUESTIONS.length}`;
-  questionText.innerText = q.q;
-  ansButtons.forEach((btn,i)=>{
-    btn.classList.remove('correct','wrong');
-    btn.disabled=false;
-    btn.querySelector('.ans-text').innerText = q.a[i];
-    btn.onclick = ()=>selectAnswer(i);
-  });
-  timeLeft = TIME_PER_QUESTION;
-  timerEl.innerText = timeLeft;
-  if(timer) clearInterval(timer);
-  timer = setInterval(()=>{
-    timeLeft--;
-    timerEl.innerText = timeLeft;
-    if(timeLeft<=0){ clearInterval(timer); selectAnswer(-1);}
-  },1000);
+function create() {
+  showQuestion.call(this, currentIndex);
 }
 
-function selectAnswer(i){
-  clearInterval(timer);
-  const q = QUESTIONS[current];
-  ansButtons.forEach((btn,idx)=>{
-    btn.disabled=true;
-    if(idx===q.correct) btn.classList.add('correct');
-    else if(idx===i) btn.classList.add('wrong');
+function update() {}
+
+function showQuestion(idx) {
+  if(idx >= QUESTIONS.length){
+    finishGame();
+    return;
+  }
+
+  const q = QUESTIONS[idx];
+
+  // Слой фона
+  const bg = this.add.rectangle(300,400,550,400,0x0b1220).setAlpha(0.9).setStrokeStyle(2,0x7c3aed,0.6).setOrigin(0.5).setRadius(20);
+
+  const title = this.add.text(300, 300, q.q, {
+    font: '20px Inter',
+    color: '#e6eef8',
+    wordWrap: { width: 500 }
+  }).setOrigin(0.5);
+
+  // Кнопки ответов
+  const buttons = [];
+  q.a.forEach((ans,i)=>{
+    const btn = this.add.text(300, 370 + i*60, ans, {
+      font: '18px Inter',
+      backgroundColor: '#1e293b',
+      color: '#fff',
+      padding: {x:10,y:10},
+      align: 'center'
+    }).setOrigin(0.5).setInteractive();
+
+    btn.on('pointerdown', ()=>{
+      if(i === q.correct) correctCount++;
+      currentIndex++;
+      this.scene.restart();
+    });
+
+    buttons.push(btn);
   });
-  if(i===q.correct) correctCount++;
-  current++;
-  setTimeout(loadQuestion,800);
 }
 
 function finishGame(){
-  screenQuiz.classList.add('hidden');
-  screenCab.classList.remove('hidden');
-  document.getElementById('userPoints').innerText = correctCount;
+  document.getElementById('game-container').style.display = 'none';
+  const endScreen = document.getElementById('endScreen');
+  endScreen.classList.remove('hidden');
+  document.getElementById('endScore').innerText = `Правильных ответов: ${correctCount}/${QUESTIONS.length}`;
+
+  document.getElementById('sendResultBtn').onclick = ()=>{
+    const payload = `result:${userId}:${correctCount}`;
+    if(tg?.sendData) tg.sendData(payload);
+    else alert('Результат: '+payload);
+  };
+
+  document.getElementById('playAgainBtn').onclick = ()=>{
+    location.reload();
+  };
 }
