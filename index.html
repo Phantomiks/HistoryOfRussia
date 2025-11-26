@@ -1,20 +1,40 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TikTok History Feed</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Историческая лента — Demo</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="app">
 
-<div class="tabs">
-    <div class="tab" data-tab="for-you">Рекомендации</div>
-    <div class="tab active" data-tab="following">Обычное</div>
-</div>
+    <!-- Top tabs -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">📜</div>
+        <div>
+          <div class="title">Истории</div>
+          <div class="subtitle">Лента в стиле TikTok — история</div>
+        </div>
+      </div>
 
-<div id="feed" class="feed"></div>
+      <nav class="tabs" id="tabs">
+        <button class="tab active" data-tab="following">Обычное</button>
+        <button class="tab" data-tab="for-you">Рекомендации</button>
+      </nav>
+    </header>
 
-<script src="app.js"></script>
+    <!-- Feed area -->
+    <main class="feed-root">
+      <div id="viewport" class="viewport" aria-live="polite"></div>
+    </main>
+
+    <footer class="footer-note">
+      Swipe up / down — листать • Swipe left / right или нажать вкладку — переключать разделы
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
