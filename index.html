@@ -3,86 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Личный кабинет</title>
+<title>Борьба умов</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="app">
-
-  <!-- Top Bar -->
-  <div class="topbar">
-    <div class="brand">
-      <h1>История Бот</h1>
-      <p class="subtitle">Личный кабинет</p>
+<div id="root" class="app">
+  <!-- Главный экран -->
+  <div id="screen-start" class="screen hero">
+    <h2>Борьба умов</h2>
+    <div class="btn-row">
+      <button id="soloBtn" class="btn btn-primary">Соло</button>
+      <button id="duelBtn" class="btn btn-secondary">Дуэль</button>
+      <button id="cabinetBtn" class="btn btn-ghost">Личный кабинет</button>
     </div>
   </div>
 
-  <!-- Profile -->
-  <div class="card profile-card">
-    <img id="avatar" src="https://via.placeholder.com/80" class="avatar" alt="Avatar">
-    <h2 id="username">Гость</h2>
-    <p id="userId">ID: -</p>
-    <div class="streak">
-      🔥 Дни подряд: <span id="streakCount">0</span>
-    </div>
-  </div>
-
-  <!-- Stats -->
-  <div class="card stats-card">
-    <div class="stats">
-      <div>
-        <h3 id="level">1</h3>
-        <p>Ранг</p>
+  <!-- Викторина -->
+  <div id="screen-quiz" class="screen hidden">
+    <div class="panel">
+      <div class="meta">
+        <span id="qIndex">Вопрос 1/10</span>
+        <span class="timer" id="timer">15</span>
       </div>
-      <div>
-        <h3 id="points">0</h3>
-        <p>Баллы</p>
+      <div class="question-card">
+        <h3 id="questionText">Вопрос</h3>
+        <div class="answers">
+          <div class="answer" id="ans0"><span class="ans-label">A</span> <span class="ans-text"></span></div>
+          <div class="answer" id="ans1"><span class="ans-label">B</span> <span class="ans-text"></span></div>
+          <div class="answer" id="ans2"><span class="ans-label">C</span> <span class="ans-text"></span></div>
+          <div class="answer" id="ans3"><span class="ans-label">D</span> <span class="ans-text"></span></div>
+        </div>
       </div>
-      <div>
-        <h3 id="tasksDone">0</h3>
-        <p>Задания</p>
+      <div class="progress">
+        <div class="progress__bar" id="progressBar"></div>
       </div>
     </div>
-    <div class="progress-container">
-      <div class="progress-bar-bg">
-        <div class="progress-bar" id="levelProgress"></div>
-      </div>
-      <p>Опыт до следующего уровня</p>
+  </div>
+
+  <!-- Личный кабинет -->
+  <div id="screen-cabinet" class="screen hidden">
+    <div class="card endcard">
+      <h3>Личный кабинет</h3>
+      <p>Очки: <span id="userPoints">0</span></p>
+      <p>Ачивки:</p>
+      <ul id="achievements">
+        <li>Новичок: завершил первую игру</li>
+        <li>Победитель: выиграл рейтинг</li>
+      </ul>
+      <button id="backBtn" class="btn btn-secondary">Назад</button>
     </div>
-  </div>
-
-  <!-- Achievements -->
-  <div class="card achievements-card">
-    <h3>Ачивки</h3>
-    <div class="achievements-grid" id="achievementsGrid">
-      <!-- Медальки -->
-    </div>
-  </div>
-
-  <!-- История действий -->
-  <div class="card history-card">
-    <h3>История действий</h3>
-    <ul id="historyList"></ul>
-  </div>
-
-  <!-- Referral -->
-  <div class="card referral-card">
-    <h3>Реферальная программа</h3>
-    <p>Приглашайте друзей и получайте бонусы!</p>
-    <button id="copyLink" class="btn btn-primary">Скопировать ссылку</button>
-  </div>
-
-</div>
-
-<!-- Modal для ачивок -->
-<div class="modal hidden" id="modal">
-  <div class="modal-content">
-    <span class="close" id="modalClose">&times;</span>
-    <h3 id="modalTitle">Ачивка</h3>
-    <p id="modalDesc">Описание</p>
   </div>
 </div>
-
 <script src="script.js"></script>
 </body>
 </html>
