@@ -1,97 +1,132 @@
+:root {
+    --bg: #0e1624;
+    --glass: rgba(255,255,255,0.08);
+    --border: rgba(255,255,255,0.12);
+    --text: #e9eff8;
+    --muted: #9caac3;
+    --accent: #60a5fa;
+    --radius: 22px;
+}
+
+* { box-sizing: border-box; }
 body {
     margin: 0;
-    padding: 0;
+    background: radial-gradient(circle at 20% 20%, #1a2640, #0b111d 70%);
+    color: var(--text);
+    font-family: Inter, sans-serif;
+    overflow: hidden;
     height: 100vh;
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-
-    /* Фон стеклянный */
-    background: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=800&q=60')
-        center/cover no-repeat;
 }
 
-/* Контейнер свайпов */
-.swiper {
-    height: 100%;
+/* Верхние вкладки как в TikTok */
+.tabs {
+    position: absolute;
+    top: 14px;
     width: 100%;
-    overflow: hidden;
-    scroll-snap-type: y mandatory;
-    overflow-y: scroll;
-}
-
-.slide {
-    height: 100%;
-    width: 100%;
+    text-align: center;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    scroll-snap-align: center;
+    z-index: 20;
+    gap: 22px;
+}
+.tab {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+}
+.tab.active {
+    color: white;
+    border-bottom: 2px solid var(--accent);
+}
+
+/* Лента */
+.feed {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
 }
 
 /* Карточка */
 .card {
-    width: 80%;
-    height: 260px;
-    perspective: 1000px;
-    margin-bottom: 20px;
-}
-
-.card-inner {
-    width: 100%;
-    height: 100%;
-    border-radius: 20px;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.7s;
-    backdrop-filter: blur(12px);
-}
-
-.card.flipped .card-inner {
-    transform: rotateY(180deg);
-}
-
-/* Стороны карточки */
-.card-side {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 20px;
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.3);
+    top: 50%;
+    left: 50%;
+    width: 82%;
+    max-width: 420px;
+    height: 65vh;
+    transform: translate(-50%, -50%);
+    border-radius: var(--radius);
+    padding: 24px;
+    background: rgba(255,255,255,0.05);
     backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.45);
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 26px;
-    font-weight: 600;
-    backface-visibility: hidden;
-    padding: 20px;
-    text-align: center;
-    color: white;
+    flex-direction: column;
+    justify-content: space-between;
+    opacity: 0;
+    transition: opacity .3s ease, transform .4s ease-out;
 }
 
-.back {
-    transform: rotateY(180deg);
+/* Активная карточка */
+.card.active {
+    opacity: 1;
 }
 
-/* Иконки лайк / закладка */
+/* Заголовок */
+.card-title {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+/* Описание */
+.card-text {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.45;
+}
+
+/* Блок лайков/закладка */
 .actions {
     display: flex;
-    gap: 25px;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 20px;
 }
-
-.actions i {
-    font-size: 34px;
+.actions button {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    padding: 14px 18px;
+    border-radius: 16px;
+    font-size: 20px;
     color: white;
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.15s;
+}
+.actions button:hover {
+    background: rgba(255,255,255,0.12);
+    transform: translateY(-2px);
 }
 
-.actions i.liked {
-    color: #ff4b4b;
+/* Анимации свайпа */
+.swipe-up {
+    transform: translate(-50%, -120%);
+    opacity: 0;
+}
+.swipe-down {
+    transform: translate(-50%, 120%);
+    opacity: 0;
 }
 
-.actions i.saved {
-    color: #ffd43b;
+/* Переключение вкладок свайпом вправо-влево */
+.swipe-left {
+    transform: translate(-150%, -50%);
+    opacity: 0;
+}
+.swipe-right {
+    transform: translate(50%, -50%);
+    opacity: 0;
 }
