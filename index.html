@@ -1,81 +1,88 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Личный кабинет — Истории</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Личный кабинет</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="root">
-    <header class="header">
-      <div class="app-title">
-        <div class="logo">📜</div>
-        <div>
-          <h1>Личный кабинет</h1>
-          <p class="muted">Прогресс, ачивки и рефералы</p>
-        </div>
-      </div>
-      <div id="profileShort" class="profile-short">
-        <div id="userName" class="user-name">Гость</div>
-      </div>
-    </header>
+<div class="app">
 
-    <section class="card glass" id="streakCard">
-      <div class="card-head">
-        <h2>Стрик (дни подряд)</h2>
-        <div class="muted small">Дата последней активности: <span id="lastActive">—</span></div>
-      </div>
-      <div class="streak-row">
-        <div id="streakValue" class="streak-value">0</div>
-        <div class="streak-progress">
-          <div id="streakBar" class="streak-bar"></div>
-        </div>
-      </div>
-      <div class="card-actions">
-        <button id="claimDaily" class="btn">Отметить сегодня</button>
-      </div>
-    </section>
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="brand">
+      <h1>История Бот</h1>
+      <p class="subtitle">Личный кабинет</p>
+    </div>
+  </div>
 
-    <section class="card glass" id="achievementsCard">
-      <div class="card-head">
-        <h2>Ачивки</h2>
-        <div class="muted small">Зарабатывай значки — они показывают активность</div>
+  <!-- Profile -->
+  <div class="card profile-card">
+    <img id="avatar" src="https://via.placeholder.com/80" class="avatar" alt="Avatar">
+    <h2 id="username">Гость</h2>
+    <p id="userId">ID: -</p>
+    <div class="streak">
+      🔥 Дни подряд: <span id="streakCount">0</span>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="card stats-card">
+    <div class="stats">
+      <div>
+        <h3 id="level">1</h3>
+        <p>Ранг</p>
       </div>
-
-      <div id="achievementsList" class="achievements-list">
-        <!-- achievements injected here -->
+      <div>
+        <h3 id="points">0</h3>
+        <p>Баллы</p>
       </div>
-    </section>
-
-    <section class="card glass" id="referralCard">
-      <div class="card-head">
-        <h2>Реферальная программа</h2>
-        <div class="muted small">Приглашай друзей — получай бонусы</div>
+      <div>
+        <h3 id="tasksDone">0</h3>
+        <p>Задания</p>
       </div>
-
-      <div class="ref-row">
-        <div>
-          <div class="muted small">Твой код</div>
-          <div id="refCode" class="ref-code">—</div>
-        </div>
-        <div>
-          <div class="muted small">Приглашено</div>
-          <div id="refCount" class="ref-count">0</div>
-        </div>
+    </div>
+    <div class="progress-container">
+      <div class="progress-bar-bg">
+        <div class="progress-bar" id="levelProgress"></div>
       </div>
+      <p>Опыт до следующего уровня</p>
+    </div>
+  </div>
 
-      <div class="card-actions">
-        <button id="shareRef" class="btn ghost">Поделиться</button>
-        <button id="copyRef" class="btn">Копировать ссылку</button>
-      </div>
-    </section>
+  <!-- Achievements -->
+  <div class="card achievements-card">
+    <h3>Ачивки</h3>
+    <div class="achievements-grid" id="achievementsGrid">
+      <!-- Медальки -->
+    </div>
+  </div>
 
-    <footer class="footer muted">
-      Демо — минималистичный WebApp для Telegram Bot. Запуск локально: см. README ниже.
-    </footer>
-  </main>
+  <!-- История действий -->
+  <div class="card history-card">
+    <h3>История действий</h3>
+    <ul id="historyList"></ul>
+  </div>
 
-  <script src="app.js"></script>
+  <!-- Referral -->
+  <div class="card referral-card">
+    <h3>Реферальная программа</h3>
+    <p>Приглашайте друзей и получайте бонусы!</p>
+    <button id="copyLink" class="btn btn-primary">Скопировать ссылку</button>
+  </div>
+
+</div>
+
+<!-- Modal для ачивок -->
+<div class="modal hidden" id="modal">
+  <div class="modal-content">
+    <span class="close" id="modalClose">&times;</span>
+    <h3 id="modalTitle">Ачивка</h3>
+    <p id="modalDesc">Описание</p>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
