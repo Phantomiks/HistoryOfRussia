@@ -1,54 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Борьба умов</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Историческая викторина — игра</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="app">
-
-  <!-- Главный экран -->
-  <div id="screen-start" class="screen hero">
-    <h2>Борьба умов</h2>
-    <div class="btn-row">
-      <button class="btn btn-primary" id="rateBtn">Играть на рейтинг</button>
-      <button class="btn btn-secondary" id="casualBtn">Просто играть</button>
-      <button class="btn btn-ghost" id="inviteBtn">Пригласить друга</button>
-    </div>
-  </div>
-
-  <!-- Экран викторины -->
-  <div id="screen-quiz" class="screen hidden">
-    <div class="question-card">
-      <div class="meta">
-        <span id="qIndex">Вопрос 1/10</span>
-        <div class="timer"><span id="timerNum">15</span> сек</div>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 24 24" aria-hidden><path d="M12 2L2 7v7c0 5 5 9 10 9s10-4 10-9V7L12 2z" /></svg>
+        <div>
+          <h1>Историческая викторина</h1>
+          <p class="subtitle">Проверь знания — соревнуйся с друзьями</p>
+        </div>
       </div>
-      <h3 id="questionText">Вопрос...</h3>
-      <div class="answers">
-        <div class="answer" id="ans0"><div class="ans-label">A</div><div class="ans-text"></div></div>
-        <div class="answer" id="ans1"><div class="ans-label">B</div><div class="ans-text"></div></div>
-        <div class="answer" id="ans2"><div class="ans-label">C</div><div class="ans-text"></div></div>
-        <div class="answer" id="ans3"><div class="ans-label">D</div><div class="ans-text"></div></div>
+      <div id="webinfo" class="webinfo">...</div>
+    </header>
+
+    <section id="screen-start" class="screen">
+      <div class="card hero">
+        <h2>Начать игру</h2>
+        <p>Выбери режим и играй: рейтинговый (запись результата) или без рейтинга.</p>
+        <div class="btn-row">
+          <button class="btn btn-ghost" id="inviteBtn">Скопировать ссылку приглашения</button>
+          <button class="btn btn-primary" id="rateBtn">Режим — Рейтинг</button>
+          <button class="btn btn-secondary" id="casualBtn">Режим — Без рейтинга</button>
+        </div>
       </div>
-      <div class="progress"><div class="progress__bar" id="progressBar"></div></div>
-    </div>
-  </div>
+      <div class="card features">
+        <h3>Правила</h3>
+        <ul>
+          <li>15 секунд на вопрос</li>
+          <li>4 варианта ответов</li>
+          <li>Победа в рейтинге — +10, поражение — −9</li>
+          <li>Лучший результат сохраняется в рейтинге</li>
+        </ul>
+      </div>
+    </section>
 
-  <!-- Экран конца игры -->
-  <div id="screen-end" class="screen endcard hidden">
-    <h2 id="endTitle">Победа!</h2>
-    <p id="endScore">0 / 0</p>
-    <p id="modeLabel">Рейтинг</p>
-    <div class="btn-row">
-      <button class="btn btn-primary" id="playAgainBtn">Сыграть снова</button>
-    </div>
-    <p class="note">Результат сохраняется автоматически</p>
-  </div>
+    <section id="screen-quiz" class="screen hidden">
+      <div class="panel">
+        <div class="progress">
+          <div id="progressBar" class="progress__bar"></div>
+        </div>
+        <div class="meta">
+          <div id="qIndex">Вопрос 1/10</div>
+          <div id="timer" class="timer"><span id="timerNum">15</span>s</div>
+        </div>
 
-</div>
-<script src="script.js"></script>
+        <div class="card question-card">
+          <h3 id="questionText">—</h3>
+          <div class="answers">
+            <button class="answer" data-index="0" id="ans0"><span class="ans-label">A</span><span class="ans-text"></span></button>
+            <button class="answer" data-index="1" id="ans1"><span class="ans-label">B</span><span class="ans-text"></span></button>
+            <button class="answer" data-index="2" id="ans2"><span class="ans-label">C</span><span class="ans-text"></span></button>
+            <button class="answer" data-index="3" id="ans3"><span class="ans-label">D</span><span class="ans-text"></span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-end" class="screen hidden">
+      <div class="card endcard">
+        <h2 id="endTitle">Игра окончена</h2>
+        <p id="endSummary">Твой результат: <strong id="endScore">0</strong></p>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="sendResultBtn">Отправить результат в бот</button>
+          <button class="btn btn-ghost" id="playAgainBtn">Играть снова</button>
+        </div>
+        <div class="note">Режим: <span id="modeLabel"></span></div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <small>© Проект «Россия. История, которой мы гордимся»</small>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
