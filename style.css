@@ -1,132 +1,88 @@
-:root {
-    --bg: #0e1624;
-    --glass: rgba(255,255,255,0.08);
-    --border: rgba(255,255,255,0.12);
-    --text: #e9eff8;
-    --muted: #9caac3;
-    --accent: #60a5fa;
-    --radius: 22px;
-}
 
-* { box-sizing: border-box; }
-body {
+* {
     margin: 0;
-    background: radial-gradient(circle at 20% 20%, #1a2640, #0b111d 70%);
-    color: var(--text);
-    font-family: Inter, sans-serif;
-    overflow: hidden;
-    height: 100vh;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, sans-serif;
 }
 
-/* Верхние вкладки как в TikTok */
-.tabs {
-    position: absolute;
-    top: 14px;
-    width: 100%;
-    text-align: center;
+body {
+    height: 100vh;
+    background: #0f0f0f;
     display: flex;
     justify-content: center;
-    z-index: 20;
-    gap: 22px;
-}
-.tab {
-    padding: 8px 12px;
-    cursor: pointer;
-    font-size: 16px;
-    color: var(--muted);
-    border-bottom: 2px solid transparent;
-}
-.tab.active {
-    color: white;
-    border-bottom: 2px solid var(--accent);
-}
-
-/* Лента */
-.feed {
-    height: 100vh;
-    width: 100%;
-    position: relative;
+    align-items: center;
     overflow: hidden;
 }
 
-/* Карточка */
+.feed-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
 .card {
     position: absolute;
-    top: 50%;
     left: 50%;
-    width: 82%;
-    max-width: 420px;
-    height: 65vh;
+    top: 50%;
+    width: 80%;
+    max-width: 450px;
+    height: 60%;
     transform: translate(-50%, -50%);
-    border-radius: var(--radius);
-    padding: 24px;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--border);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    padding: 25px;
+    color: white;
+    text-align: center;
+
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    opacity: 0;
-    transition: opacity .3s ease, transform .4s ease-out;
+    justify-content: center;
+    gap: 20px;
+
+    box-shadow: 0 0 25px rgba(255,255,255,0.1);
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* Активная карточка */
-.card.active {
-    opacity: 1;
-}
-
-/* Заголовок */
-.card-title {
-    font-size: 24px;
+.card h2 {
+    font-size: 28px;
     font-weight: 700;
 }
 
-/* Описание */
-.card-text {
-    font-size: 16px;
-    color: var(--muted);
-    line-height: 1.45;
+.card p {
+    font-size: 19px;
+    opacity: 0.85;
+    line-height: 1.4;
 }
 
-/* Блок лайков/закладка */
 .actions {
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.btn {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
     display: flex;
     justify-content: center;
-    gap: 40px;
-    margin-top: 20px;
-}
-.actions button {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid var(--border);
-    padding: 14px 18px;
-    border-radius: 16px;
-    font-size: 20px;
+    align-items: center;
+    font-size: 32px;
     color: white;
     cursor: pointer;
-    transition: 0.15s;
-}
-.actions button:hover {
-    background: rgba(255,255,255,0.12);
-    transform: translateY(-2px);
+    transition: 0.2s;
+    user-select: none;
 }
 
-/* Анимации свайпа */
-.swipe-up {
-    transform: translate(-50%, -120%);
-    opacity: 0;
-}
-.swipe-down {
-    transform: translate(-50%, 120%);
-    opacity: 0;
-}
-
-/* Переключение вкладок свайпом вправо-влево */
-.swipe-left {
-    transform: translate(-150%, -50%);
-    opacity: 0;
-}
-.swipe-right {
-    transform: translate(50%, -50%);
-    opacity: 0;
+.btn:active {
+    transform: scale(0.9);
+    background: rgba(255,255,255,0.25);
 }
