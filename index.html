@@ -1,27 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Историческая лента</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Личный кабинет — Истории</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <div class="feed-container">
-
-        <div id="card" class="card">
-            <h2 id="title"></h2>
-            <p id="description"></p>
+  <main class="root">
+    <header class="header">
+      <div class="app-title">
+        <div class="logo">📜</div>
+        <div>
+          <h1>Личный кабинет</h1>
+          <p class="muted">Прогресс, ачивки и рефералы</p>
         </div>
+      </div>
+      <div id="profileShort" class="profile-short">
+        <div id="userName" class="user-name">Гость</div>
+      </div>
+    </header>
 
-        <div class="actions">
-            <div class="btn like">❤</div>
-            <div class="btn save">★</div>
+    <section class="card glass" id="streakCard">
+      <div class="card-head">
+        <h2>Стрик (дни подряд)</h2>
+        <div class="muted small">Дата последней активности: <span id="lastActive">—</span></div>
+      </div>
+      <div class="streak-row">
+        <div id="streakValue" class="streak-value">0</div>
+        <div class="streak-progress">
+          <div id="streakBar" class="streak-bar"></div>
         </div>
+      </div>
+      <div class="card-actions">
+        <button id="claimDaily" class="btn">Отметить сегодня</button>
+      </div>
+    </section>
 
-    </div>
+    <section class="card glass" id="achievementsCard">
+      <div class="card-head">
+        <h2>Ачивки</h2>
+        <div class="muted small">Зарабатывай значки — они показывают активность</div>
+      </div>
 
-<script src="script.js"></script>
+      <div id="achievementsList" class="achievements-list">
+        <!-- achievements injected here -->
+      </div>
+    </section>
+
+    <section class="card glass" id="referralCard">
+      <div class="card-head">
+        <h2>Реферальная программа</h2>
+        <div class="muted small">Приглашай друзей — получай бонусы</div>
+      </div>
+
+      <div class="ref-row">
+        <div>
+          <div class="muted small">Твой код</div>
+          <div id="refCode" class="ref-code">—</div>
+        </div>
+        <div>
+          <div class="muted small">Приглашено</div>
+          <div id="refCount" class="ref-count">0</div>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button id="shareRef" class="btn ghost">Поделиться</button>
+        <button id="copyRef" class="btn">Копировать ссылку</button>
+      </div>
+    </section>
+
+    <footer class="footer muted">
+      Демо — минималистичный WebApp для Telegram Bot. Запуск локально: см. README ниже.
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
 </body>
 </html>
