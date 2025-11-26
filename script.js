@@ -1,4 +1,3 @@
-// Массив историй
 const STORIES = [
   {date:"26 ноября 2025", desc:"Подписание важного исторического документа, которое изменило ход истории."},
   {date:"9 мая 1945", desc:"Победа в Великой Отечественной войне. День памяти и славы."},
@@ -21,7 +20,6 @@ const bookmarkBtn = document.getElementById("bookmarkBtn");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 
-// Показ истории по индексу
 function showStory(index){
   const story = STORIES[index];
   storyDate.innerText = story.date;
