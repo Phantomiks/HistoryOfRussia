@@ -4,56 +4,44 @@
   --accent:#60a5fa;
   --accent-2:#7c3aed;
   --muted:#9aa7bf;
+  --glass: rgba(255,255,255,0.03);
   --success:#16a34a;
   --danger:#ef4444;
-  --round:16px;
-  --glass: rgba(255,255,255,0.03);
+  --round:14px;
 }
 
-*{box-sizing:border-box;}
-html,body{margin:0;padding:0;font-family: Inter, sans-serif;background:var(--bg);color:#e6eef8;}
-.app{max-width:480px;margin:0 auto;padding:20px;}
-
-.card{
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-radius: var(--round);
-  padding:20px;
-  margin-bottom:16px;
-  box-shadow:0 6px 24px rgba(2,6,23,0.6);
-  border:1px solid rgba(255,255,255,0.03);
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{
+  margin:0;
+  font-family: Inter, sans-serif;
+  background: linear-gradient(180deg,#071025 0%, #071a2a 60%);
+  color:#e6eef8;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-/* Profile */
-.profile-card{display:flex;justify-content:center;align-items:center;flex-direction:column;text-align:center;}
-.profile-card .avatar{border-radius:50%;width:80px;height:80px;margin-bottom:12px;border:2px solid var(--accent);}
-.profile-card h2{margin:0 0 4px 0;font-size:20px;}
-.profile-card p{margin:0;font-size:14px;color:var(--muted);}
-.streak{margin-top:8px;font-size:14px;color:var(--accent);}
+.app{width:100%;max-width:980px;margin:40px}
+.screen{display:block}
+.hidden{display:none}
 
-/* Stats */
-.stats{display:flex;justify-content:space-between;text-align:center;margin-bottom:12px;}
-.stats h3{margin:0;font-size:22px;}
-.stats p{margin:0;color:var(--muted);}
-.progress-container{margin-top:8px;}
-.progress-bar-bg{width:100%;height:10px;background:var(--glass);border-radius:999px;overflow:hidden;margin-bottom:6px;}
-.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .3s ease;}
+/* Hero */
+.hero{text-align:center;padding:30px}
+.btn-row{display:flex;gap:12px;justify-content:center;margin-top:20px}
+.btn{border-radius:12px;padding:12px 18px;font-size:15px;border:0;cursor:pointer;transition:0.12s}
+.btn-primary{background: linear-gradient(90deg,var(--accent),var(--accent-2)); color:white;}
+.btn-secondary{background:transparent;color:var(--accent);border:1px solid rgba(96,165,250,0.12);}
+.btn-ghost{background:transparent;color:var(--muted);border:1px dashed rgba(255,255,255,0.04);}
 
-/* Achievements */
-.achievements-grid{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;}
-.achievement{width:60px;height:60px;border-radius:12px;background:var(--glass);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease;}
-.achievement:hover{transform:translateY(-4px);box-shadow:0 12px 24px rgba(96,165,250,0.3);}
+/* Quiz */
+.question-card{padding:20px;background:var(--card);border-radius:var(--round);margin-top:20px}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.answer{padding:12px;background:rgba(255,255,255,0.05);border-radius:10px;cursor:pointer;display:flex;gap:8px;align-items:center;}
+.answer.correct{border:2px solid var(--success)}
+.answer.wrong{border:2px solid var(--danger)}
+.progress{height:10px;background:rgba(255,255,255,0.02);border-radius:999px;overflow:hidden;margin-top:10px}
+.progress__bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:0.35s}
 
-/* History */
-.history-card ul{list-style:none;padding:0;margin:0;max-height:120px;overflow-y:auto;}
-.history-card li{margin-bottom:6px;font-size:14px;color:var(--muted);}
-
-/* Referral */
-.referral-card p{margin-bottom:8px;}
-.btn{padding:10px 16px;border:none;border-radius:12px;cursor:pointer;font-size:15px;}
-.btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;}
-
-/* Modal */
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:flex;justify-content:center;align-items:center;}
-.modal-content{background:var(--card);padding:24px;border-radius:var(--round);max-width:320px;text-align:center;position:relative;}
-.close{position:absolute;top:8px;right:12px;font-size:24px;cursor:pointer;}
-.hidden{display:none;}
+/* Cabinet */
+.endcard{background:var(--card);padding:20px;border-radius:var(--round);text-align:center;}
