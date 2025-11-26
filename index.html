@@ -1,15 +1,50 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Style Mini App</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MiniApp</title>
+
+<link rel="stylesheet" href="style.css" />
+
+<!-- Иконки -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
+
 <body>
 
-<div id="feed">
-    <!-- Карточки генерируются JS -->
+<div class="swiper">
+
+    <!-- СЛАЙД 1 -->
+    <div class="slide">
+        <div class="card" onclick="flip(this)">
+            <div class="card-inner">
+                <div class="card-side front">12 ноября 2023</div>
+                <div class="card-side back">В этот день произошло важное событие...</div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <i class="fa-regular fa-heart" onclick="toggleLike(event, this)"></i>
+            <i class="fa-regular fa-bookmark" onclick="toggleSave(event, this)"></i>
+        </div>
+    </div>
+
+    <!-- СЛАЙД 2 -->
+    <div class="slide">
+        <div class="card" onclick="flip(this)">
+            <div class="card-inner">
+                <div class="card-side front">5 июня 2022</div>
+                <div class="card-side back">Что случилось в этот день...</div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <i class="fa-regular fa-heart" onclick="toggleLike(event, this)"></i>
+            <i class="fa-regular fa-bookmark" onclick="toggleSave(event, this)"></i>
+        </div>
+    </div>
+
 </div>
 
 <script src="script.js"></script>
