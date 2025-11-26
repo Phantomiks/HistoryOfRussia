@@ -1,78 +1,73 @@
 body {
     margin: 0;
+    background: #0a0a0a;
     font-family: Arial, sans-serif;
-    background: #0f0f0f;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     height: 100vh;
+    overflow: hidden;
 }
 
-/* Табы */
-.tabs {
-    width: 100%;
+#feed {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+}
+
+.page {
+    height: 100vh;
     display: flex;
     justify-content: center;
-    gap: 15px;
-    padding: 15px;
-}
-.tab {
-    padding: 10px 20px;
-    background: rgba(255,255,255,0.1);
-    border: none;
-    border-radius: 20px;
-    color: white;
-    font-size: 16px;
-    backdrop-filter: blur(10px);
-}
-.tab.active {
-    background: rgba(255,255,255,0.25);
+    align-items: center;
+    scroll-snap-align: center;
+    position: relative;
 }
 
-/* Карточка */
 .card {
-    width: 90%;
-    margin-top: 20px;
+    width: 80%;
     padding: 20px;
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.12);
     border-radius: 20px;
-
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, .2);
     color: white;
+    text-align: center;
+    transition: 0.3s;
+    cursor: pointer;
+}
 
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.card.expanded {
+    height: auto;
 }
 
 .card-title {
-    font-size: 22px;
+    font-size: 28px;
     font-weight: bold;
 }
 
-.card-text {
-    opacity: 0.85;
+.card-content {
+    margin-top: 15px;
+    display: none;
     font-size: 18px;
 }
 
-/* Иконки */
+.card.expanded .card-content {
+    display: block;
+}
+
 .actions {
+    margin-top: 20px;
     display: flex;
     justify-content: center;
-    gap: 30px;
-    margin-top: 10px;
+    gap: 40px;
 }
 
-.icon {
-    font-size: 30px;
+.action-btn {
+    font-size: 32px;
     cursor: pointer;
     transition: 0.2s;
+    opacity: 0.7;
 }
 
-.icon.liked {
-    color: #ff3050;
-}
-
-.icon.saved {
-    color: #30d5ff;
+.action-btn.active {
+    opacity: 1;
+    transform: scale(1.2);
 }
