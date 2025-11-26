@@ -1,80 +1,70 @@
 /* ===== Общие стили ===== */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(120deg,#f0f4ff,#d9e4ff);
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg,#f5f7fa,#c3cfe2);
+  margin:0;
+  padding:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
 }
 
 .container {
   width: 95%;
-  max-width: 500px;
-  background: #ffffffdd;
+  max-width: 480px;
+  background: #fff;
   border-radius: 20px;
-  padding: 20px 25px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  padding: 25px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 
-/* ===== Скрытие экранов ===== */
-.hidden { display: none; }
-.screen { text-align: center; padding: 20px; }
+/* ===== Экраны ===== */
+.screen { text-align:center; padding:20px; }
+.hidden { display:none; }
 
 /* ===== Заголовки ===== */
-.title { font-size: 32px; color: #333; margin-bottom: 25px; }
-.screen h2 { font-size: 28px; color: #333; margin-bottom: 15px; }
+.title { font-size: 36px; color: #333; margin-bottom: 30px; font-weight: 700; }
 
 /* ===== Кнопки ===== */
 .button {
-  background: #4CAF50;
-  color: white;
-  padding: 15px 25px;
-  margin: 10px 0;
-  font-size: 18px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
+  display:block;
+  background: linear-gradient(135deg,#6a11cb,#2575fc);
+  color:white;
+  font-size:18px;
+  font-weight:600;
+  border:none;
+  border-radius:12px;
+  padding:15px;
+  margin:15px auto;
+  cursor:pointer;
+  width:80%;
   transition: all 0.2s ease;
-  width: 80%;
 }
+.button:hover { transform: translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,0.2); }
 
-.button:hover { background: #45a049; transform: translateY(-2px); }
 .ans-btn {
-  display: block;
-  margin: 10px auto;
-  padding: 14px 20px;
-  background: #2196F3;
-  color: white;
-  width: 90%;
-  font-size: 18px;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
+  display:block;
+  margin:12px auto;
+  padding:14px 20px;
+  background: #f0f0f0;
+  color:#333;
+  width:90%;
+  font-size:18px;
+  border-radius:12px;
+  border:none;
+  cursor:pointer;
   transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
-.ans-btn:hover { transform: scale(1.03); }
-.ans-btn.correct { background: #4CAF50 !important; }
-.ans-btn.wrong { background: #f44336 !important; }
+.ans-btn:hover { background:#e0e0e0; transform: scale(1.02); }
+.ans-btn.correct { background:#4caf50; color:white; }
+.ans-btn.wrong { background:#f44336; color:white; }
+
+/* ===== Вопрос ===== */
+.question-text { font-size:22px; margin-bottom:15px; color:#333; padding:10px; border-radius:12px; background:#f7f7f7; }
 
 /* ===== Таймер и прогресс ===== */
-.timer-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-.timer { font-size: 28px; color: #333; font-weight: bold; }
-.progress-bar { flex:1; height: 12px; background: #2196F3; border-radius: 6px; margin-left: 10px; width: 0%; transition: width 0.3s ease; }
-
-/* ===== Текст вопроса ===== */
-.question-text { font-size: 22px; margin-bottom: 15px; color:#333; }
-
-/* ===== Экран ожидания ===== */
-.loader {
-  border: 6px solid #f3f3f3;
-  border-top: 6px solid #2196F3;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  margin: 20px auto;
-  animation: spin 1s linear infinite;
-}
-@keyframes spin { 100% { transform: rotate(360deg); } }
+.timer-container { display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; }
+.timer { font-size:28px; font-weight:700; color:#333; }
+.progress-bar { flex:1; height:12px; background:#2575fc; border-radius:6px; margin-left:10px; width:0%; transition:width 0.3s ease; }
