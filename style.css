@@ -1,96 +1,87 @@
-:root{
-  --bg1:#0a0f1c;
-  --bg2:#081321;
-  --glass:rgba(255,255,255,0.08);
-  --glass-border:rgba(255,255,255,0.12);
-  --accent:#60a5fa;
-  --muted:#b3bdd1;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, sans-serif;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;}
-body,html{
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:linear-gradient(180deg,var(--bg1),var(--bg2));
-  font-family:Inter, sans-serif;
-  color:white;
+body {
+    height: 100vh;
+    background: #0f0f0f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
-.container{
-  position:relative;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  touch-action:none;
+.feed-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
-/* -------- FULLSCREEN CARD (TIKTOK STYLE) -------- */
-.card{
-  position:absolute;
-  width:100%;
-  height:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
-  transition:transform .45s cubic-bezier(.22,.61,.36,1), opacity .4s ease;
+.card {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 80%;
+    max-width: 450px;
+    height: 60%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    padding: 25px;
+    color: white;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+
+    box-shadow: 0 0 25px rgba(255,255,255,0.1);
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-.card-inner{
-  width:80%;
-  max-width:500px;
-  padding:28px;
-  border-radius:24px;
-  background:var(--glass);
-  backdrop-filter: blur(18px);
-  border:1px solid var(--glass-border);
-  box-shadow:0 20px 40px rgba(0,0,0,0.45);
-  text-align:center;
+.card h2 {
+    font-size: 28px;
+    font-weight: 700;
 }
 
-.date{
-  font-size:32px;
-  font-weight:700;
-  margin-bottom:16px;
+.card p {
+    font-size: 19px;
+    opacity: 0.85;
+    line-height: 1.4;
 }
 
-.desc{
-  color:var(--muted);
-  font-size:20px;
-  line-height:1.4;
+.actions {
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
 }
 
-/* ---------- RIGHT ACTION BAR LIKE TIKTOK ---------- */
-.actions{
-  position:absolute;
-  right:18px;
-  top:50%;
-  transform:translateY(-50%);
-  display:flex;
-  flex-direction:column;
-  gap:22px;
+.btn {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+    user-select: none;
 }
 
-.action-btn{
-  width:58px;
-  height:58px;
-  border-radius:16px;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.12);
-  backdrop-filter: blur(8px);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:30px;
-  color:white;
-  user-select:none;
-  cursor:pointer;
-  transition:transform .12s ease;
+.btn:active {
+    transform: scale(0.9);
+    background: rgba(255,255,255,0.25);
 }
-.action-btn:active{
-  transform:scale(0.88);
-}
-
-/* Hide scrollbars */
-::-webkit-scrollbar{display:none;}
